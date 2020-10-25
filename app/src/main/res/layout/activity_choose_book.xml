@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+    android:text="@string/chooseBook"
+    android:textColor="@color/colorText"
+    android:textSize="30sp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <Button
+            android:layout_margin="1dp"
+            android:background="@color/colorTextBackground"
+            android:text="@string/cet4"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            android:id="@+id/activity_choose_book_button_cet4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_margin="1dp"
+            android:background="@color/colorTextBackground"
+            android:text="@string/gec"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            android:id="@+id/activity_choose_book_button_gec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+            <Button
+                android:layout_margin="1dp"
+                android:background="@color/colorTextBackground"
+                android:id="@+id/activity_choose_book_button_ielts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ielts"
+                android:textColor="@color/colorText"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/myPlan"
+            android:textColor="@color/colorText"
+            android:textSize="30sp" />
+    <LinearLayout
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_margin="1dp"
+            android:background="@color/colorTextBackground"
+            android:text="@string/day_10"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            android:id="@+id/activity_choose_book_button_plan_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="ButtonStyle" />
+        <Button
+            android:layout_margin="1dp"
+            android:background="@color/colorTextBackground"
+            android:text="@string/day_20"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            android:id="@+id/activity_choose_book_button_plan_20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:layout_margin="1dp"
+            android:background="@color/colorTextBackground"
+            android:id="@+id/activity_choose_book_button_plan_30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/day_30"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            tools:ignore="ButtonStyle" />
+    </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="30sp"
+            android:text="@string/neededDays"
+            android:textColor="@color/colorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:textStyle="italic"
+            android:id="@+id/activity_choose_text_days"
+            android:textSize="30sp"
+            android:textColor="@color/colorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <Button
+            android:background="#fff"
+            android:layout_margin="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:textColor="@color/colorText"
+            android:padding="5dp"
+
+            android:text="@string/next"
+            android:textSize="30sp"
+            android:id="@+id/activity_choose_book_button_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</LinearLayout>

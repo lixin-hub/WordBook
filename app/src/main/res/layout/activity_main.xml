@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/activity_main_search_top_root_background"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <include layout="@layout/activity_main_top_box"
+        android:id="@+id/main_1"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"/>
+    <ScrollView
+        android:scrollbars="none"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/main_1"
+        android:layout_above="@id/main_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <include layout="@layout/activity_main_head_plan"/>
+            <include layout="@layout/activity_main_mid_task"/>
+            <include layout="@layout/activity_main_bottom_root_affix"/>
+            <include layout="@layout/activity_main_end_reading"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include layout="@layout/activity_main_navigation"
+        android:id="@+id/main_3"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

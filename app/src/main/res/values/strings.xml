@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">单词记</string>
+    <string name="chooseBook">选择单词书:</string>
+    <string name="cet4">CET4</string>
+    <string name="gec">GEC</string>
+    <string name="ielts">IELTS</string>
+    <string name="myPlan">我的计划:</string>
+    <string name="day_10">10个每天</string>
+    <string name="day_20">20个每天</string>
+    <string name="day_30">30个每天</string>
+    <string name="neededDays">需要的天数：</string>
+    <string name="next">下一步</string>
+    <string name="cet4_cn">四级词汇</string>
+    <string name="planHasChange">计划有变?</string>
+    <string name="hasLearnedCount">已学个数</string>
+    <string name="task">任务</string>
+    <string name="blew_learn_root_affix">打基础学词根\n     快速记词无压力！</string>
+    <string name="activity_main_end_reading">海量文章精准推送\n 坚持每日阅读\n 成就英语黑马！</string>
+</resources>
