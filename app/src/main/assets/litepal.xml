@@ -1,0 +1,7 @@
+<litepal>
+    <dbname value="Words" />
+    <version value="2" />
+    <list>
+        <mapping class="com.example.database.CET4luan_2" />
+    </list>
+</litepal>
