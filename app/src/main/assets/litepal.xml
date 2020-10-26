@@ -1,7 +1,12 @@
 <litepal>
-    <dbname value="Words" />
-    <version value="2" />
+    <dbname value="CET_4" />
+    <version value="1" />
     <list>
-        <mapping class="com.example.database.CET4luan_2" />
+        <mapping class="com.cqut.learn.DataBase.CET4" />
+        <mapping class="com.cqut.learn.DataBase.Phrase" />
+        <mapping class="com.cqut.learn.DataBase.Sentence" />
+        <mapping class="com.cqut.learn.DataBase.Syno" />
+        <mapping class="com.cqut.learn.DataBase.Translate" />
+        <mapping class="com.cqut.learn.DataBase.Cognate" />
     </list>
 </litepal>

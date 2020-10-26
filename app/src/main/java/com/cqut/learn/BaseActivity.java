@@ -10,6 +10,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class BaseActivity extends AppCompatActivity {
+    /*
+     *@className:BaseActivity
+     *@Description:提供一些基础功能
+     *@author:lixin
+     *@Date:2020/10/25 17:32
+     */
     protected Window window;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

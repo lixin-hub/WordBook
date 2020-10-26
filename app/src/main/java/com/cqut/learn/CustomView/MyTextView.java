@@ -25,7 +25,7 @@ import com.cqut.learn.Util.MyText;
 public class MyTextView extends androidx.appcompat.widget.AppCompatTextView implements MyText.TextItemClickListener {
 /*
  *@className:MyTextView
- *@Description:解决布局clcik与TextView本身滑动冲突
+ *@Description:解决布局clcik与TextView本身滑动冲突，并且封装了划词功能
  *@author:lixin
  *@Date:2020/10/24 13:52
  */

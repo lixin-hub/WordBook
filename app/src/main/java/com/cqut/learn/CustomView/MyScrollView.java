@@ -13,6 +13,12 @@ import com.cqut.learn.R;
 import java.util.Set;
 
 public class MyScrollView extends ScrollView implements  ScrollView.OnScrollChangeListener{
+    /*
+     *@className:MyScrollView
+     *@Description:自定义scrollview实现简单的动画效果
+     *@author:lixin
+     *@Date:2020/10/25 17:33
+     */
 
     private TextView titleText;
     private View title;
