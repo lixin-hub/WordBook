@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/colorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/realtivePhrase"
+        />
+    <com.cqut.learn.CustomView.MyTextView
+        android:layout_margin="5dp"
+        android:textColor="@color/colorText"
+        android:textSize="20sp"
+        android:id="@+id/activity_learn_content_phrase_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="n. congratulate 祝贺\nadv. congratulations 祝贺" />
+
+
+</LinearLayout>

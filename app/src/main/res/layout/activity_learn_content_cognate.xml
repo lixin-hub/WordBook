@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorTransparent"
+    >
+
+    <TextView
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="15sp"
+        android:textColor="@color/colorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="同根词"
+        />
+
+    <com.cqut.learn.CustomView.MyTextView
+        android:id="@+id/activity_learn_content_cognate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="
+adj.grateful [to,for]感激的;感谢的\n
+adj.gratuitous 无缘无故的,免费的\n
+adj.gratuity[n.赏钱,小费]的\n
+adj.ingratiating 讨好的,谄媚的\n
+adj.ingratiate[v.逢迎,讨好]"
+        android:textColor="@color/colorText"
+        android:textSize="15sp" />
+
+
+</LinearLayout>

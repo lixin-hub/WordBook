@@ -7,15 +7,45 @@
     tools:context=".MainActivity"
     android:fitsSystemWindows="true"
     android:background="@drawable/activity_main_search_top_root_background">
->
-    <LinearLayout
+       <LinearLayout
         android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <include layout="@layout/activity_learn_title" />
+           <include layout="@layout/activity_learn_title" />
+          <com.cqut.learn.CustomView.MyScrollView
+              android:id="@+id/activity_learn_content_scroll"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+              <LinearLayout
+                  android:orientation="vertical"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">
+                  <include layout="@layout/activity_learn_content_translate"/>
+                  <include layout="@layout/activity_learn_content_syno"/>
+                  <View
+                      android:layout_marginStart="10dp"
+                      android:layout_marginEnd="10dp"
+                      android:layout_marginTop="2.5dp"
+                      android:layout_marginBottom="2.5dp"
+                      android:background="@color/colorTextBackground"
+                      android:layout_width="match_parent"
+                      android:layout_height="0.1px"/>
+                  <include layout="@layout/activity_learn_content_cognate"/>
+                  <View
+                      android:layout_marginStart="10dp"
+                      android:layout_marginEnd="10dp"
+                      android:layout_marginTop="2.5dp"
+                      android:layout_marginBottom="2.5dp"
+                      android:background="@color/colorTextBackground"
+                      android:layout_width="match_parent"
+                      android:layout_height="0.1px"/>
+                  <include layout="@layout/activity_learn_content_phrase"/>
+                  <include layout="@layout/activity_learn_content_3dswitch"/>
+                  <include layout="@layout/activity_learn_content_sentence"/>
+              </LinearLayout>
 
-        <include layout="@layout/activity_learn_content"/>
-    </LinearLayout>
+          </com.cqut.learn.CustomView.MyScrollView>
+
+       </LinearLayout>
 </FrameLayout>

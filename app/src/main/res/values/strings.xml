@@ -16,4 +16,6 @@
     <string name="task">任务</string>
     <string name="blew_learn_root_affix">打基础学词根\n     快速记词无压力！</string>
     <string name="activity_main_end_reading">海量文章精准推送\n 坚持每日阅读\n 成就英语黑马！</string>
+    <string name="realtivePhrase">相关短语</string>
+    <string name="sentences">例句：</string>
 </resources>

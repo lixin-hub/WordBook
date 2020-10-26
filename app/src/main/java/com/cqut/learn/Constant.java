@@ -7,6 +7,7 @@ public class Constant {
      *@author:lixin
      *@Date:2020/10/25 17:31
      */
+    public static boolean is3DViewTouched=false;
     public static int book_cet4=100;
     public static int book_gec=200;
     public static int book_ielts=300;

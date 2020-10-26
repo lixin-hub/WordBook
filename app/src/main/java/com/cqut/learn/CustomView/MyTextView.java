@@ -124,13 +124,9 @@ public class MyTextView extends androidx.appcompat.widget.AppCompatTextView impl
                 }
                 //不是滑动、link.length != 0，拦截处理 Textview link 点击事件 ，证明点击了
                 if (link.length != 0) {
-                    super.onTouchEvent(widget,buffer,event);
                     if (action == MotionEvent.ACTION_UP) {
-                        Selection.setSelection(buffer,
-                                buffer.getSpanStart(link[0]),
-                                buffer.getSpanEnd(link[0]));
                         link[0].onClick(widget);
-                        return true;
+                        return false;
                     }
 
                 } else {

@@ -2,12 +2,14 @@ package com.cqut.learn.CustomView;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.cqut.learn.BaseActivity;
+import com.cqut.learn.Constant;
 import com.cqut.learn.R;
 
 import java.util.Set;
@@ -66,5 +68,12 @@ public class MyScrollView extends ScrollView implements  ScrollView.OnScrollChan
             titleText.setText("");
 
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        super.onTouchEvent(ev);
+        if (Constant.is3DViewTouched){return false;}
+        return super.onTouchEvent(ev);
     }
 }
