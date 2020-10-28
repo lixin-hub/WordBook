@@ -124,6 +124,7 @@ public class Image3DSwitchView extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        Constant.is3DViewTouched=false;
         if (mScroller.isFinished()) {
             if (mVelocityTracker == null) {
                 mVelocityTracker = VelocityTracker.obtain();
@@ -166,6 +167,7 @@ public class Image3DSwitchView extends ViewGroup {
                     break;
             }
         }
+        Constant.is3DViewTouched=false;
         return true;
     }
 

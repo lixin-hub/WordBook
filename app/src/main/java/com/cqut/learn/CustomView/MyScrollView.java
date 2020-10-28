@@ -66,13 +66,11 @@ public class MyScrollView extends ScrollView implements  ScrollView.OnScrollChan
         }
         if (scrollY < offsetHeight) {
             titleText.setText("");
-
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        super.onTouchEvent(ev);
         if (Constant.is3DViewTouched){return false;}
         return super.onTouchEvent(ev);
     }

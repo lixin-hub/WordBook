@@ -9,12 +9,12 @@
     <TextView
         android:textStyle="bold"
         android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:textSize="15sp"
         android:textColor="@color/colorText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="同根词"
+        android:text="@string/cognate"
         />
 
     <com.cqut.learn.CustomView.MyTextView
@@ -22,12 +22,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:text="
-adj.grateful [to,for]感激的;感谢的\n
-adj.gratuitous 无缘无故的,免费的\n
-adj.gratuity[n.赏钱,小费]的\n
-adj.ingratiating 讨好的,谄媚的\n
-adj.ingratiate[v.逢迎,讨好]"
         android:textColor="@color/colorText"
         android:textSize="15sp" />
 

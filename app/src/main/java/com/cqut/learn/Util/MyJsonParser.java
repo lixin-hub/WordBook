@@ -1,10 +1,14 @@
 package com.cqut.learn.Util;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.cqut.learn.Constant;
 import com.cqut.learn.DataBase.CET4;
 import com.cqut.learn.DataBase.Cognate;
 import com.cqut.learn.DataBase.Phrase;
@@ -14,6 +18,9 @@ import com.cqut.learn.DataBase.Translate;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,8 +36,20 @@ public class MyJsonParser{
  *@author:lixin
  *@Date:2020/10/25 19:50
  */
-
-
+public interface  WordParseListener{
+    /*
+     *@className:WordParseListener
+     *@Description:解析数据回调，用于界面更新
+     *@author:lixin
+     *@Date:2020/10/27 20:59
+     */
+    public void onWordParsedOver(int count);
+    public void onWordParsed(String word,int index);
+}
+     private static WordParseListener listener;
+     public static void setWordParseListener(WordParseListener mlistener){
+         listener=mlistener;
+     }
     public static void start(final Context context, final String fileName){
         /**
         *@methodName:startAndReturnCET4
@@ -43,6 +62,7 @@ public class MyJsonParser{
             @Override
             public void run() {
                 readFileWithLine(context,fileName);
+                listener.onWordParsedOver(LitePal.count(CET4.class));
             }
         }).start();
 
@@ -91,10 +111,10 @@ public class MyJsonParser{
             String bookId=jsonObject.getString("bookId");
             cet4.setBookId(bookId);
             cet4.setWordRank(wordRank);
-            System.out.println(wordRank);
+            //System.out.println(wordRank);
             String headWord = jsonObject.getString("headWord");
             cet4.setHeadWord(headWord);
-            System.out.println(headWord);
+            //System.out.println(headWord);
             JSONObject content1 = jsonObject.getJSONObject("content");
             JSONObject word = content1.getJSONObject("word");
             JSONObject content = word.getJSONObject("content");
@@ -195,14 +215,19 @@ public class MyJsonParser{
                         JSONObject object = phrases.getJSONObject(i);
                         String cn = object.getString("pCn");
                         String en = object.getString("pContent");
-                        Phrase phrase1 = new Phrase(en,cn,cet4);
+                        Phrase phrase1 = new Phrase(en, cn, cet4);
                         phrase1.setTheId(wordRank);
                         phrase1.save();
                         phraseArrayList.add(phrase1);
                     }
                     cet4.setPhrases(phraseArrayList);
+
                 }
             }
             cet4.save();
+        if (listener != null) {
+            listener.onWordParsed(headWord, wordRank);
+        }
     }
+
 }

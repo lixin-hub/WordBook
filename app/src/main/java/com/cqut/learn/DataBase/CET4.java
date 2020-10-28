@@ -1,5 +1,6 @@
 package com.cqut.learn.DataBase;
 
+import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ public class CET4 extends LitePalSupport {
      *@Date:2020/10/25 17:40
      */
    private int wordId;//单词id
+
+    private int headWordLength;
     private int wordRank;//单词序列
    private int likes;//点赞的次数
    private int score;//单词的分数
@@ -27,7 +30,9 @@ public class CET4 extends LitePalSupport {
    private List<Syno> synos=new ArrayList<>();//同近单词
    private List<Translate> translates=new ArrayList<>();//翻译列表
    private List<Sentence> sentences=new ArrayList<>();//例句列表
-
+    public int getHeadWordLength() {
+        return headWord.length();
+    }
     public List<Cognate> getCognates() {
         return cognates;
     }
@@ -93,6 +98,7 @@ public class CET4 extends LitePalSupport {
 
     public void setHeadWord(String headWord) {
         this.headWord = headWord;
+        headWordLength=this.headWord.length();
     }
 
     public String getUs_phone() {
@@ -111,7 +117,7 @@ public class CET4 extends LitePalSupport {
         this.uk_phone = uk_phone;
     }
     public List<Phrase> getPhrases() {
-        return phrases;
+        return LitePal.where("theId=?",this.getWordId()+"").find(Phrase.class);
     }
 
     public void setPhrases(List<Phrase> phrases) {
@@ -119,7 +125,7 @@ public class CET4 extends LitePalSupport {
     }
 
     public List<Syno> getSynos() {
-        return synos;
+        return LitePal.where("theId=?",this.getWordId()+"").find(Syno.class);
     }
 
     public void setSynos(List<Syno> synos) {
@@ -127,7 +133,7 @@ public class CET4 extends LitePalSupport {
     }
 
     public List<Translate> getTranslates() {
-        return translates;
+        return LitePal.where("theId=?",this.getWordId()+"").find(Translate.class);
     }
 
     public void setTranslates(List<Translate> translates) {
@@ -135,7 +141,7 @@ public class CET4 extends LitePalSupport {
     }
 
     public List<Sentence> getSentences() {
-        return sentences;
+        return LitePal.where("theId=?",this.getWordId()+"").find(Sentence.class);
     }
 
     public void setSentences(List<Sentence> sentences) {

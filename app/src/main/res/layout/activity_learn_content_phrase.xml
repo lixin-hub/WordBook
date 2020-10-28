@@ -18,11 +18,11 @@
     <com.cqut.learn.CustomView.MyTextView
         android:layout_margin="5dp"
         android:textColor="@color/colorText"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:id="@+id/activity_learn_content_phrase_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="n. congratulate 祝贺\nadv. congratulations 祝贺" />
+        />
 
 
 </LinearLayout>

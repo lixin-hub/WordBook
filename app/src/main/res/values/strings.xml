@@ -18,4 +18,9 @@
     <string name="activity_main_end_reading">海量文章精准推送\n 坚持每日阅读\n 成就英语黑马！</string>
     <string name="realtivePhrase">相关短语</string>
     <string name="sentences">例句：</string>
+    <string name="syno">同义词</string>
+    <string name="cognate">同根词</string>
+    <string name="en">英</string>
+    <string name="us">美</string>
+    <string name="parsing">正在解析</string>
 </resources>

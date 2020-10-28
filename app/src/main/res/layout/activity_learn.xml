@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:fitsSystemWindows="true"
+    android:orientation="vertical"
     android:background="@drawable/activity_main_search_top_root_background">
-       <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
            <include layout="@layout/activity_learn_title" />
           <com.cqut.learn.CustomView.MyScrollView
@@ -30,7 +27,7 @@
                       android:layout_marginBottom="2.5dp"
                       android:background="@color/colorTextBackground"
                       android:layout_width="match_parent"
-                      android:layout_height="0.1px"/>
+                      android:layout_height="0.1dp"/>
                   <include layout="@layout/activity_learn_content_cognate"/>
                   <View
                       android:layout_marginStart="10dp"
@@ -39,7 +36,7 @@
                       android:layout_marginBottom="2.5dp"
                       android:background="@color/colorTextBackground"
                       android:layout_width="match_parent"
-                      android:layout_height="0.1px"/>
+                      android:layout_height="0.1dp"/>
                   <include layout="@layout/activity_learn_content_phrase"/>
                   <include layout="@layout/activity_learn_content_3dswitch"/>
                   <include layout="@layout/activity_learn_content_sentence"/>
@@ -48,4 +45,3 @@
           </com.cqut.learn.CustomView.MyScrollView>
 
        </LinearLayout>
-</FrameLayout>

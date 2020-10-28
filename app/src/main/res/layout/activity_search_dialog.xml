@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/activity_main_search_top_root_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:background="@drawable/activity_main_search_top_root_background"
+        android:orientation="horizontal"
+        android:id="@+id/main_1"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize">
+        <com.cqut.learn.CustomView.MyEditText
+            android:layout_weight="5"
+            android:id="@+id/activity_main_search_word"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/activity_main_search_box_background"
+            android:fitsSystemWindows="true"
+            />
+        <Button
+            android:textSize="20sp"
+            android:text="取消"
+            android:layout_marginEnd="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/activity_main_search_top_root_background"
+            android:layout_weight="1"
+            android:id="@+id/activity_search_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@+id/main_1"
+        android:id="@+id/activity_search_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</RelativeLayout>

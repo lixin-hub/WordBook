@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@drawable/activity_main_search_top_root_background"
-    android:orientation="vertical"
     tools:context=".MainActivity">
     <include layout="@layout/activity_main_top_box"
         android:id="@+id/main_1"

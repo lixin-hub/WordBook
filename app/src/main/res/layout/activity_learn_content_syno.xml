@@ -11,7 +11,7 @@
             android:textColor="@color/colorText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="同义词"
+            android:text="@string/syno"
             />
         <com.cqut.learn.CustomView.MyTextView
             android:id="@+id/activity_learn_content_syno_trans"
@@ -21,8 +21,7 @@
             android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="vt.祝贺;恭禧
-compliment commend praise bless flatter" />
+ />
 
 
 </LinearLayout>

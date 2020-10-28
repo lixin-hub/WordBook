@@ -1,8 +1,8 @@
 package com.cqut.learn;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,16 +12,19 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
 import com.cqut.learn.CustomView.Image3DView;
 import com.cqut.learn.CustomView.MyScrollView;
+import com.cqut.learn.CustomView.MyTextView;
 import com.cqut.learn.DataBase.CET4;
 import com.cqut.learn.DataBase.Cognate;
-import com.cqut.learn.DataBase.MyDataBaseHelper;
 import com.cqut.learn.DataBase.Phrase;
 import com.cqut.learn.DataBase.Sentence;
 import com.cqut.learn.DataBase.Syno;
 import com.cqut.learn.Util.BitmapToRound;
-import com.cqut.learn.Util.MyJsonParser;
+
+import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
 
 import java.util.List;
 
@@ -40,13 +43,13 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
     private TextView content_text_uk_phone;//英式英标
     private TextView content_text_us_phone;//美式英标
     //syno
-    private TextView  content_syno_text;//同义词翻译
+    private MyTextView content_syno_text;//同义词翻译
     //cognate
-    private TextView content_cognate_text;//同根词
+    private MyTextView content_cognate_text;//同根词
     //phrase
-    private TextView content_phrase_text;//短语
+    private MyTextView content_phrase_text;//短语
     //sentence
-    private TextView content_sentence_text;//例句
+    private MyTextView content_sentence_text;//例句
     private Button bt_next;//下一个
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,8 +63,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         Image3DView image3DView1=findViewById(R.id.activity_learn_content_3dswitch_1);
         image3DView1.setImageBitmap(bitmap1);
         Image3DView image3DView2=findViewById(R.id.activity_learn_content_3dswitch_2);
-        image3DView2.setImageBitmap(bitmap2);
-
+        Glide.with(this).load("https://5b0988e595225.cdn.sohucs.com/images/20190421/be80134bb4b04253806cb0690cdc90df.jpeg").into(image3DView2);
         Image3DView image3DView3=findViewById(R.id.activity_learn_content_3dswitch_3);
         image3DView3.setImageBitmap(bitmap3);
 
@@ -72,8 +74,8 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         image3DView5.setImageBitmap(bitmap3);
 
 
-     //MyJsonParser.start(this,"CET4luan_2.json");//把单词数据保存到数据库，初始化
-   List<CET4> cet4s= MyDataBaseHelper.query(10,0);
+
+   List<CET4> cet4s= LitePal.limit(10).offset(200).find(CET4.class,true);
    for (CET4 cet4:cet4s){
        for (Cognate cognate:cet4.getCognates()){
            System.out.println(cognate.getPos()+":"+cognate.getP_Content()+":"+cognate.getP_Cn());
@@ -121,6 +123,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         ImageView content_speaker_us = findViewById(R.id.activity_learn_content_trans_speaker_us);
         content_speaker_us.setOnClickListener(this);//发音
     }
+    @SuppressLint("SetTextI18n")
     private void updateTranslateView(CET4 cet4){
         /*
         *@methodName:upDateTranslateView
@@ -133,8 +136,8 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         scrollView.setTitle(title, title_text_word,cet4.getHeadWord(),window);//更新标题栏单词
         content_text_word.setText(cet4.getHeadWord());
         title_text_word.setText(cet4.getHeadWord());
-        content_text_uk_phone.setText(cet4.getUk_phone());
-        content_text_us_phone.setText(cet4.getUs_phone());
+        content_text_uk_phone.setText("["+cet4.getUk_phone()+"]");
+        content_text_us_phone.setText("["+cet4.getUs_phone()+"]");
     }
     private void initSynoView(){
         /*
@@ -160,7 +163,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         for (Syno syno:cet4.getSynos()){
             builder.append(syno.getPos()+"."+syno.getP_Content()+" "+syno.getP_Cn()+"\n");
         }
-         content_syno_text.setText(builder.toString());
+         content_syno_text.setMyText(builder.toString());
     }
     private void initCognateView(){
         /*
@@ -186,7 +189,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         for (Cognate cognate:cet4.getCognates()){
             builder.append(cognate.getPos()+"."+cognate.getP_Content()+" "+cognate.getP_Cn()+"\n");
         }
-        content_cognate_text.setText(builder.toString());
+        content_cognate_text.setMyText(builder.toString());
     }
     private void initPhrase(){
         /*
@@ -212,7 +215,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         for (Phrase phrase:cet4.getPhrases()){
             builder.append(phrase.getP_Content()+" "+phrase.getP_Cn()+"\n");
         }
-        content_phrase_text.setText(builder.toString());
+        content_phrase_text.setMyText(builder.toString());
     }
     private void initSentence(){
         /*
@@ -238,7 +241,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         for (Sentence sentence:cet4.getSentences()){
             builder.append(sentence.getP_Content()+" "+sentence.getP_Cn()+"\n");
         }
-        content_sentence_text.setText(builder.toString());
+        content_sentence_text.setMyText(builder.toString());
     }
     @Override
     public void onClick(View v) {

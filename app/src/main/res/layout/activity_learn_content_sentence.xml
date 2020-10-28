@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sentence"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-        android:id="@+id/sentence"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+  >
         <TextView
             android:layout_marginStart="10dp"
             android:textStyle="bold"
@@ -23,17 +21,7 @@
             android:textSize="15sp"
             android:id="@+id/activity_learn_content_sentence_text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-android:text="I should congratulate you that you resisted the temptation.\n
-我应向你祝贺,你抗住了这种引诱.\n
-Let me congratulate you on your fulfilling your goal.\n
-我祝贺你完成了任务.\n
-He'd go back to them shortly when they awoke to congratulate the candidates.\n
-他必须尽快回到他们身边等他的候选人一醒过来他就可以恭喜他们.\n
-The reception gives the wedding guests and opportunity to congratulate the newlyweds.\n
-新娘和新郎常常先相互往对方嘴里送进一口,然后再分送给客人.\n
-Well, congratulate yourself that you resisted the temptation.\n
-你得为自己抵挡住了诱惑而深感庆幸."/>
-    </LinearLayout>
+            android:layout_height="wrap_content" />
+
 
 </LinearLayout>

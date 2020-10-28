@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,7 +13,6 @@
         <TextView
             android:textStyle="italic"
             android:id="@+id/activity_learn_content_trans_text_word"
-            android:text="congtulations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -30,21 +30,20 @@
             android:layout_marginTop="18dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/activity_learn_title_before_likes"
-            android:clickable="true" />
+            android:clickable="true"
+            android:focusable="true" />
 
 
     </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/phone"
-        android:layout_below="@+id/fist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/word_content_text"
             android:orientation="horizontal">
 
             <TextView
@@ -53,9 +52,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
-                android:text="英"
+                android:text="@string/en"
                 android:textColor="#000000"
                 android:textSize="15sp" />
 
@@ -72,24 +71,23 @@
                 android:id="@+id/activity_learn_content_trans_speaker_uk"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_gravity="center"
-                android:src="@drawable/activity_learn_content_speaker" />
+                android:src="@drawable/activity_learn_content_speaker"
+                tools:ignore="ContentDescription" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/part_up"
             android:orientation="horizontal"
-            android:layout_alignParentEnd="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
-                android:textColor="#000000"
-                android:id="@+id/word_content_phonetic_cn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="美"
                 android:layout_margin="5dp"
+                android:text="@string/us"
+                android:textColor="@color/colorText"
                 android:textSize="15sp" />
 
             <TextView
@@ -107,13 +105,13 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_gravity="center"
-                android:src="@drawable/activity_learn_content_speaker" />
+                android:src="@drawable/activity_learn_content_speaker"
+                tools:ignore="ContentDescription" />
         </LinearLayout>
 
     </LinearLayout>
     <TextView
         android:textColor="@color/colorText"
-        android:text="恭喜；祝贺；"
         android:layout_marginStart="10dp"
         android:textSize="20sp"
         android:id="@+id/activity_learn_content__trans_transcontent"

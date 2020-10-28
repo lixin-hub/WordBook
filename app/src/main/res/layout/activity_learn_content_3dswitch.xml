@@ -7,7 +7,6 @@
     android:background="@color/colorTransparent">
 
     <androidx.cardview.widget.CardView
-        android:layout_below="@+id/phone"
         android:layout_margin="5dp"
         app:cardCornerRadius="10dp"
         android:layout_width="wrap_content"
@@ -34,7 +33,6 @@
             android:scaleType="fitXY"
             android:src="@drawable/con1" />
         <com.cqut.learn.CustomView.Image3DView
-
             android:padding="10dp"
             android:id="@+id/activity_learn_content_3dswitch_3"
             android:layout_width="match_parent"

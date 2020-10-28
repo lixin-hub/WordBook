@@ -3,6 +3,7 @@ package com.cqut.learn.CustomView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
@@ -48,7 +49,9 @@ public class MyTextView extends androidx.appcompat.widget.AppCompatTextView impl
 
     private static final long CLICK_DELAY = 500L;
 
-
+    public void setOnTextChanged(){
+        MyText.clickableText(this,this);
+    }
     @Override
     public boolean performClick() {   //最后响应3
         if (linkHit) {
@@ -57,13 +60,19 @@ public class MyTextView extends androidx.appcompat.widget.AppCompatTextView impl
         return super.performClick();  //调用监听的onClick方法
     }
 
-    @SuppressLint("ClickableViewAccessibility")
+
+
+        @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {   //textView的OnClick事件响应，首先响应1
         linkHit = false;
         return super.onTouchEvent(event);
     }
 
+    public void setMyText(String string){
+        this.setText(string);
+        setOnTextChanged();
+    }
     @Override
     public void onTextItemClicked(@NonNull View view, String matcher) {
         MyDialog.show(view.getContext(),matcher,"test");
@@ -125,8 +134,11 @@ public class MyTextView extends androidx.appcompat.widget.AppCompatTextView impl
                 //不是滑动、link.length != 0，拦截处理 Textview link 点击事件 ，证明点击了
                 if (link.length != 0) {
                     if (action == MotionEvent.ACTION_UP) {
+                        Selection.setSelection(buffer,
+                                buffer.getSpanStart(link[0]),
+                                buffer.getSpanEnd(link[0]));
                         link[0].onClick(widget);
-                        return false;
+                        return true;
                     }
 
                 } else {
@@ -137,7 +149,6 @@ public class MyTextView extends androidx.appcompat.widget.AppCompatTextView impl
            return Touch.onTouchEvent(widget, buffer, event);
 
         }
-
         public static CustomLinkMovementMethod getInstance() {
             if (sInstance == null) {
                 sInstance = new CustomLinkMovementMethod();

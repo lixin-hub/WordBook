@@ -1,19 +1,29 @@
 package com.cqut.learn;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ChooseBookActivity extends BaseActivity implements View.OnClickListener {
+import com.cqut.learn.Util.MyDialog;
+import com.cqut.learn.Util.MyJsonParser;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class ChooseBookActivity extends BaseActivity implements View.OnClickListener,MyJsonParser.WordParseListener{
     /*
      *@className:ChooseBookActivity
      *@Description:选择单词书
@@ -28,6 +38,11 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
     private Button bt_plan10;
     private Button bt_plan20;
     private Button bt_plan30;
+    private TextView text_Title;
+    TextView text_progress;
+    private ProgressBar bar;
+    private TextView text_message;
+
     private SharedPreferences.Editor editor;
     private boolean nextButtonEnableFlag_1,isNextButtonEnableFlag_2;
     @SuppressLint("CommitPrefEdits")
@@ -39,6 +54,11 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
         editor= preferences.edit();
         if (preferences.getBoolean("isFirst",true)){
             initView();
+
+            //把单词数据保存到数据库，初始化
+         // MyDialog.show(this,"正在解析单词数据","这个过程可能需要几分钟");
+
+
             editor.putBoolean("isFirst",false);
         }else {
             Intent in=new Intent(this,MainActivity.class);
@@ -124,11 +144,44 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 editor.putInt("dayPlan",Constant.day_plan_30);
                 break;
             case R.id.activity_choose_book_button_next:
+                View view= LayoutInflater.from(this).inflate(R.layout.alert_dialog_view,null);
+                text_message=view.findViewById(R.id.alert_dialog_view_message);
+                bar=view.findViewById(R.id.alert_dialog_progress);
+                text_Title=view.findViewById(R.id.alert_dialog_title);
+                text_progress=view.findViewById(R.id.alert_dialog_text_progress);
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setView(view);
+                builder.setCancelable(false);
+                Dialog dialog=builder.create();
+                dialog.show();
+                text_Title.setText("正在解析单词数据这个过程可能需要几分钟");
+                MyJsonParser.setWordParseListener(this);
+                MyJsonParser.start(this,"CET4luan_2.json");
                 editor.commit();
-                Intent in=new Intent(this,MainActivity.class);
-                startActivity(in);
-                finish();
+
             default:break;
         }
+    }
+
+    @Override
+    public void onWordParsedOver(final int count) {
+        Intent in=new Intent(this,MainActivity.class);
+        startActivity(in);
+        finish();
+    }
+
+    @Override
+    public void onWordParsed(final String word, final int index) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (text_message!=null) {
+                    text_message.setText(word);
+                    bar.setProgress(index);
+                    text_progress.setText(index+"/"+bar.getMax());
+                }
+            }
+        });
+
     }
 }
