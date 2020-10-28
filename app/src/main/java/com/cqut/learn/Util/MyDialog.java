@@ -11,7 +11,7 @@ public class MyDialog {
      *@author:lixin
      *@Date:2020/10/24 13:47
      */
-    public static void show(Context context, String title, String message) {
+    public static void showWordInfo(Context context, String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
         builder.setMessage(message);

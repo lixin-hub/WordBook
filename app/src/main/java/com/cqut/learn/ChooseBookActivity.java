@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.cqut.learn.Util.MyDialog;
 import com.cqut.learn.Util.MyJsonParser;
 
+import org.litepal.LitePal;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,7 +41,7 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
     private Button bt_plan20;
     private Button bt_plan30;
     private TextView text_Title;
-    TextView text_progress;
+    private TextView text_progress;
     private ProgressBar bar;
     private TextView text_message;
 
@@ -156,7 +158,7 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 dialog.show();
                 text_Title.setText("正在解析单词数据这个过程可能需要几分钟");
                 MyJsonParser.setWordParseListener(this);
-                MyJsonParser.start(this,"CET4luan_2.json");
+                MyJsonParser.start(this,"CET4luan_2.json",LitePal.count("CET4"));
                 editor.commit();
 
             default:break;
@@ -184,4 +186,6 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
         });
 
     }
+
+
 }

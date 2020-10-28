@@ -4,6 +4,10 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+
 public class NetWork {
 
  /*
@@ -12,6 +16,21 @@ public class NetWork {
   *@author:lixin
   *@Date:2020/10/26 11:36
   */
+
+
+
+ public static void connectNet(final String path, final Callback callback){
+     new Thread(new Runnable() {
+         @Override
+         public void run() {
+             OkHttpClient client=new OkHttpClient();
+             Request request=new Request.Builder().url(path).build();
+             client.newCall(request).enqueue(callback);
+         }
+     }).start();
+
+ }
+
     public static boolean isNetworkAvailable(Context context) {
         /*
         *@methodName:isNetworkAvailable

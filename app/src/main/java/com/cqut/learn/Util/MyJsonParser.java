@@ -29,28 +29,90 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyJsonParser{
-/*
- *@className:MyJsonParser
- *@Description:提供一些静态的方法方便调用去获得一个被解析的数据
- *@author:lixin
- *@Date:2020/10/25 19:50
- */
-public interface  WordParseListener{
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+public class MyJsonParser {
     /*
-     *@className:WordParseListener
-     *@Description:解析数据回调，用于界面更新
+     *@className:MyJsonParser
+     *@Description:提供一些静态的方法方便调用去获得一个被解析的数据
      *@author:lixin
-     *@Date:2020/10/27 20:59
+     *@Date:2020/10/25 19:50
      */
-    public void onWordParsedOver(int count);
-    public void onWordParsed(String word,int index);
-}
-     private static WordParseListener listener;
-     public static void setWordParseListener(WordParseListener mlistener){
-         listener=mlistener;
-     }
-    public static void start(final Context context, final String fileName){
+    public interface WordParseListener {
+        /*
+         *@className:WordParseListener
+         *@Description:解析数据回调，用于界面更新
+         *@author:lixin
+         *@Date:2020/10/27 20:59
+         */
+        public void onWordParsedOver(int count);
+
+        public void onWordParsed(String word, int index);
+    }
+
+    private static WordParseListener listener;
+
+    public static void setWordParseListener(WordParseListener mlistener) {
+        listener = mlistener;
+    }
+ public static interface GetImagePathListener{
+        public void onSuccess(List<String> paths);
+        public void onFailed(Exception e);
+ }
+    public static void getImagePath(String keyWord, final GetImagePathListener listener) {
+        /*
+        *@methodName:getImagePath
+        *@Description:解析从网络读取的图片地址
+        *@author:lixin
+        *@Date:2020/10/28 16:01
+        *@Param:[keyWord, listener]
+        *@Return:void
+        */
+        final String path="https://pic.sogou.com/pics/json.jsp?query="+keyWord+"表情包";
+                NetWork.connectNet(path, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {e.printStackTrace();
+                    listener.onFailed(e);
+                    }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        try {
+                            listener.onSuccess(parseImageJson(response.body().string()));
+                        }catch (Exception e){
+                            listener.onFailed(e);
+                        }
+                    }
+                });
+    }
+
+
+
+    public static List<String> parseImageJson(String jsonStr){
+        /*
+        *@methodName:parseImageJson
+        *@Description:解析图片地址
+        *@author:lixin
+        *@Date:2020/10/28 16:02
+        *@Param:[jsonStr]
+        *@Return:java.util.List<java.lang.String>
+        */
+        JSONObject object=new JSONObject(jsonStr);
+        List<String> paths=new ArrayList<>();
+        JSONArray items=object.getJSONArray("items");
+        for (int i=0;i<items.length();i++){
+            JSONObject item=items.getJSONObject(i);
+            if (item.has("picUrl")){
+            String path=item.getString("picUrl");
+                paths.add(path);
+                if (paths.size()>=5){break;}
+            }
+        }
+        return paths;
+    }
+
+    public static void start(final Context context, final String fileName, final int index){
         /**
         *@methodName:startAndReturnCET4
         *@Description:创建一个线程来解析json数据
@@ -61,27 +123,30 @@ public interface  WordParseListener{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                readFileWithLine(context,fileName);
+                readFileWithLine(context,fileName,index);
                 listener.onWordParsedOver(LitePal.count(CET4.class));
             }
         }).start();
 
     }
 
-    public static void readFileWithLine(@NonNull Context context,String fileName){
+    public static void readFileWithLine(@NonNull Context context,String fileName,int index){
+        int lines = 0;
         try {
             InputStreamReader inputStreamReader=new InputStreamReader(context.getAssets().open(fileName), StandardCharsets.UTF_8);
             BufferedReader bufferedReader=new BufferedReader(inputStreamReader);
             String line;
             while ((line=bufferedReader.readLine())!=null){
-                int began,end;
-                began=line.indexOf("{");
-                end=line.length();
-                if(began!=-1&&line.length()>3){
-                    String data=line.substring(began,end);
-                    JsonParser(data);
+                lines++;
+                if (lines>=index) {//从断点开始解析
+                    int began, end;
+                    began = line.indexOf("{");
+                    end = line.length();
+                    if (began != -1 && line.length() > 3) {
+                        String data = line.substring(began, end);
+                        JsonParser(data);
+                    }
                 }
-
             }
 
             inputStreamReader.close();

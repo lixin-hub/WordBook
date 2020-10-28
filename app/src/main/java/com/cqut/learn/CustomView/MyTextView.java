@@ -3,7 +3,6 @@ package com.cqut.learn.CustomView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Canvas;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
@@ -19,9 +18,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.cqut.learn.DataBase.CET4;
 import com.cqut.learn.R;
 import com.cqut.learn.Util.MyDialog;
 import com.cqut.learn.Util.MyText;
+
+import org.litepal.LitePal;
+
+import java.util.List;
 
 public class MyTextView extends androidx.appcompat.widget.AppCompatTextView implements MyText.TextItemClickListener {
 /*
@@ -75,12 +79,18 @@ public class MyTextView extends androidx.appcompat.widget.AppCompatTextView impl
     }
     @Override
     public void onTextItemClicked(@NonNull View view, String matcher) {
-        MyDialog.show(view.getContext(),matcher,"test");
+       List<CET4> cet4s= LitePal.where("headWord= ?",matcher).find(CET4.class);
+       if (cet4s.size()>0){
+           CET4 cet4=cet4s.get(0);
+           StringBuilder builder=new StringBuilder();
+           builder.append(cet4.getTranslates().get(0).getPos()).append(" ").append(cet4.getTranslates().get(0).getP_Cn()).append("\n").append(cet4.getTranslates().get(0).getP_Content());
+        MyDialog.showWordInfo(view.getContext(),cet4.getHeadWord(),builder.toString());
+    }
     }
 
     @Override
     public void updateDrawState(@NonNull TextPaint ds, String matcher) {
-         ds.setColor(this.getContext().getColor(R.color.colorPrimary));
+         ds.setColor(this.getContext().getColor(R.color.colorAccent));
          //ds.setUnderlineText(false);
     }
 

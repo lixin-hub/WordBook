@@ -1,12 +1,11 @@
 package com.cqut.learn.DataBase;
 
 import org.litepal.LitePal;
-import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CET4 extends LitePalSupport {
+public class CET4 extends Word {
 
 
     /*

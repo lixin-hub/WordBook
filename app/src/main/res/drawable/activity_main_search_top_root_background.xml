@@ -10,12 +10,12 @@
         android:color="@color/colorTransparent" />
 
     <!-- 设置矩形内的颜色,此处为透明色 -->
-    <solid android:color="#FFFFE9" />
+    <solid android:color="@color/colorTextBackground" />
 
 <gradient
 android:startColor="#FFFFFF"
     android:angle="90"
-    android:endColor="@color/colorAccent"
+    android:endColor="#00FFFEFE"
     />
     <!-- 定义圆角弧度 -->
     <corners
