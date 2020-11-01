@@ -1,0 +1,12 @@
+<litepal>
+    <dbname value="CET_4" />
+    <version value="1" />
+    <list>
+        <mapping class="com.cqut.learn.LitePalDB.CET4" />
+        <mapping class="com.cqut.learn.LitePalDB.Phrase" />
+        <mapping class="com.cqut.learn.LitePalDB.Sentence" />
+        <mapping class="com.cqut.learn.LitePalDB.Syno" />
+        <mapping class="com.cqut.learn.LitePalDB.Translate" />
+        <mapping class="com.cqut.learn.LitePalDB.Cognate" />
+    </list>
+</litepal>

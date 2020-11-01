@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorTransparent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_margin="5dp"
+        app:cardCornerRadius="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <com.cqut.learn.CustomView.Image3DSwitchView
+        android:id="@+id/image_switch_view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp" >
+
+          <com.cqut.learn.CustomView.Image3DView
+              android:padding="10dp"
+              android:id="@+id/activity_learn_content_3dswitch_1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/con1" />
+
+        <com.cqut.learn.CustomView.Image3DView
+            android:padding="10dp"
+            android:id="@+id/activity_learn_content_3dswitch_2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/con1" />
+        <com.cqut.learn.CustomView.Image3DView
+            android:padding="10dp"
+            android:id="@+id/activity_learn_content_3dswitch_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/con1" />
+
+        <com.cqut.learn.CustomView.Image3DView
+            android:padding="10dp"
+            android:id="@+id/activity_learn_content_3dswitch_4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/con1" />
+        <com.cqut.learn.CustomView.Image3DView
+            android:padding="10dp"
+            android:id="@+id/activity_learn_content_3dswitch_5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/con1" />
+
+    </com.cqut.learn.CustomView.Image3DSwitchView>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>

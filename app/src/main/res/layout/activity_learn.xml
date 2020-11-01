@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    >
+    <LinearLayout
+android:layout_alignParentTop="true"
+        android:layout_above="@+id/comment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/activity_main_search_top_root_background">
+
+           <include layout="@layout/activity_learn_title" />
+        <FrameLayout
+            android:id="@+id/activity_main_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </FrameLayout>
+          <com.cqut.learn.CustomView.MyScrollView
+              android:id="@+id/activity_learn_content_scroll"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+              <LinearLayout
+                  android:orientation="vertical"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">
+                  <include layout="@layout/activity_learn_content_translate"/>
+                  <include layout="@layout/activity_learn_content_syno"/>
+                  <View
+                      android:layout_marginStart="10dp"
+                      android:layout_marginEnd="10dp"
+                      android:layout_marginTop="2.5dp"
+                      android:layout_marginBottom="2.5dp"
+                      android:background="@color/colorTextBackground"
+                      android:layout_width="match_parent"
+                      android:layout_height="0.1dp"/>
+                  <include layout="@layout/activity_learn_content_cognate"/>
+                  <View
+                      android:layout_marginStart="10dp"
+                      android:layout_marginEnd="10dp"
+                      android:layout_marginTop="2.5dp"
+                      android:layout_marginBottom="2.5dp"
+                      android:background="@color/colorTextBackground"
+                      android:layout_width="match_parent"
+                      android:layout_height="0.1dp"/>
+                  <include layout="@layout/activity_learn_content_phrase"/>
+                  <include layout="@layout/activity_learn_content_3dswitch"/>
+                  <include layout="@layout/activity_learn_content_sentence"/>
+              </LinearLayout>
+
+          </com.cqut.learn.CustomView.MyScrollView>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/comment"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:background="@drawable/activity_main_search_top_bt_background"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <LinearLayout
+                android:padding="2dp"
+                android:layout_weight="5"
+                android:background="@drawable/activity_main_search_top_bt_background"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <EditText
+                    android:id="@+id/activity_learn_comment_editor"
+                    android:layout_weight="5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="5dp"
+                    android:autofillHints="评论" />
+                <Button
+                    android:text="评论"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/activity_main_search_top_bt_background"
+                    android:id="@+id/activity_learn_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:layout_margin="5dp"
+                android:background="@drawable/activity_main_search_top_bt_background"
+                android:text="@string/nextOne"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:id="@+id/activity_learn_next"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
