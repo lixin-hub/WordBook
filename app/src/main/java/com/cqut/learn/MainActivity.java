@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.cqut.learn.CustomView.MyEditText;
 import com.cqut.learn.CustomView.MyTaskAdapter;
+import com.cqut.learn.LitePalDB.CET4;
+import com.cqut.learn.MongoDB.MongoDBUtil;
 import com.cqut.learn.Util.LearnManager;
 import com.cqut.learn.Util.MyDialog;
 import com.cqut.learn.Util.MyJsonParser;
@@ -46,12 +48,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private Dialog dialog;
     private TextView text_progress;
     private ProgressBar bar;
+    //plan bar
+    private ProgressBar plan_bar;
+    //plan rate
+    private TextView plan_rate;
+    //extra days
+    private TextView plan_extra_days;
     private TextView text_message;
     //planChanged
     TextView plan_change;//计划有变
     //recycler
     private RecyclerView task_recycler;
-
+    //dayGroup
+    private List<CET4> cet4s=new ArrayList<>();
     @SuppressLint({"SetTextI18n", "CommitPrefEdits"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +69,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         initView();
         preferences = LearnManager.getPreferences();
         editor = LearnManager.getEditor();
-        //今入时判断词库是否加载完毕
+//今入时判断词库是否加载完毕
         if (LitePal.count("CET4") < 3700) {
             View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_view, null);
             text_message = view.findViewById(R.id.alert_dialog_view_message);
@@ -110,7 +119,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         //task的recycler
         LinearLayoutManager layoutManager = new LinearLayoutManager(this );
-        MyTaskAdapter taskAdapter=new MyTaskAdapter(this,LearnManager.getCe4Group());
+        cet4s.addAll(LearnManager.getCe4Group());
+        MyTaskAdapter taskAdapter=new MyTaskAdapter(this,cet4s);
         task_recycler=findViewById(R.id.activity_main_mid_recycler);
 //设置布局管理器
         task_recycler.setLayoutManager(layoutManager);
@@ -120,6 +130,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         task_recycler.setAdapter(taskAdapter);
     }
     private void initView(){
+        plan_bar=findViewById(R.id.activity_main_head_plan_progressbar);
+        plan_rate=findViewById(R.id.activity_main_head_plan_rate);
+        plan_extra_days=findViewById(R.id.activity_main_head_plan_extra_days);
         main_bt_startLearn=findViewById(R.id.activity_main_mid_bt_start_learn);
         main_bt_startLearn.setOnClickListener(this);
         Toolbar toolbar=findViewById(R.id.activity_main_toolbar);
@@ -129,6 +142,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         main_editText_search.setMyOnClickListener(this);
         plan_change=findViewById(R.id.activity_main_head_plan_change_plan);
         plan_change.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        plan_bar.setMax(LearnManager.totalCounts);
+        plan_bar.setProgress(LearnManager.getTotalLearnedCounts());
+        plan_rate.setText(LearnManager.getTotalLearnedCounts()+"/"+LearnManager.totalCounts);
+        plan_extra_days.setText("还有"+LearnManager.getExtraDays()+"天就完成了");
     }
 
     @Override

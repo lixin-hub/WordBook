@@ -38,13 +38,12 @@ public class LearnManager {
     public static void setEditor(SharedPreferences.Editor editor) {
         LearnManager.editor = editor;
     }
-
+    public static int totalCounts=3739;//词库的总数
     public static String currentWordId="currentWordId";//当前单词
     public static String currentGroupId="currentGroupId";//当前该学的单词组
-    public static String totalLearnedCountsId="totalLearnedCountsId";//总共学习的单词数
+    public static String totalLearnedCounts="totalLearnedCounts";//总共学习的单词数
     public static String countOfGroup="countOfGroup";//一组有多少个单词
     private static List<CET4> ce4Group;//该学的单词组
-
     public static List<CET4> getCe4Group() {
         return LitePal.limit(preferences.getInt(countOfGroup,10)
                              ).offset(preferences.getInt(currentGroupId,0)*preferences.getInt(currentGroupId,0)).find(CET4.class);
@@ -54,5 +53,13 @@ public class LearnManager {
         LearnManager.ce4Group = ce4Group;
     }
 
-
+     public static int getTotalLearnedCounts(){
+        int count=preferences.getInt(countOfGroup,10)*preferences.getInt(currentGroupId,0)+preferences.getInt(currentWordId,0);
+        editor.putInt(totalLearnedCounts,count);
+        editor.commit();
+        return count;
+     }
+    public static int getExtraDays() {
+        return (totalCounts-getTotalLearnedCounts())/preferences.getInt(countOfGroup,10);
+    }
 }

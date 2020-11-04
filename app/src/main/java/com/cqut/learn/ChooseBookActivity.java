@@ -57,16 +57,14 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
         editor= preferences.edit();
         LearnManager.setPreferences(preferences);
         LearnManager.setEditor(editor);
-         //第几个
-        LearnManager.getEditor().commit();//bao cun
-        //判断是否是第一次进入
-        LearnManager.getEditor().putInt(LearnManager.currentGroupId,0);
-        LearnManager.getEditor().putInt(LearnManager.currentWordId,0);
-        LearnManager.getEditor().commit();
+
         if (preferences.getBoolean("isFirst",true)||preferences.getBoolean("planChange",false)){
             editor.putBoolean("planChange",false);
             initView();
             editor.putBoolean("isFirst",false);
+            LearnManager.getEditor().putInt(LearnManager.currentGroupId,0);
+            LearnManager.getEditor().putInt(LearnManager.currentWordId,0);
+            LearnManager.getEditor().apply();
         }else{
             Intent in=new Intent(this,MainActivity.class);
             startActivity(in);
@@ -165,7 +163,7 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 MyJsonParser.setWordParseListener(this);
                 MyJsonParser.start(this,"CET4luan_2.json",LitePal.count("CET4"));
                 editor.commit();
-
+                  break;
             default:break;
         }
     }

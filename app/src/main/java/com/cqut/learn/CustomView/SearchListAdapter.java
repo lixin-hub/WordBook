@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.cqut.learn.LitePalDB.CET4;
+import com.cqut.learn.LitePalDB.Cognate;
 import com.cqut.learn.LitePalDB.Translate;
 import com.cqut.learn.MainLearnActivity;
 import com.cqut.learn.R;
@@ -44,8 +45,22 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
              }
          });
          StringBuilder builder=new StringBuilder();
-         for (Translate translate:cet4.getTranslates()){
-             builder.append(translate.getPos()+ translate.getP_Cn()+"\n"+translate.getP_Content()+"\n");}
+         if (cet4.getTranslates().size()>=1) {
+             Translate translate = cet4.getTranslates().get(0);
+             builder.append(translate.getPos()).append(" ").append(translate.getP_Cn()).append("  ...").append("\n").append(translate.getP_Content()).append("  ...").append("\n");
+         }
+         if (cet4.getCognates().size()>=1) {
+             Cognate cognate = cet4.getCognates().get(0);
+             builder.append("同根词:\n").append(cognate.getPos()).append(" ").append(cognate.getP_Cn()).append("  ...").append("\n").append(cognate.getP_Content()).append("  ...").append("\n");
+         }
+        holder.text_trans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, MainLearnActivity.class);
+                intent.putExtra("theId",cet4.getWordId());
+                context.startActivity(intent);
+            }
+        });
          holder.text_trans.setText(builder.toString());
     }
 

@@ -69,11 +69,11 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         private MyTextView content_sentence_text;//例句
         private Button bt_next;//下一个
         //image
-        Image3DView image3DView1;
-        Image3DView image3DView2;
-        Image3DView image3DView3;
-        Image3DView image3DView4;
-        Image3DView image3DView5;
+        private Image3DView image3DView1;
+        private Image3DView image3DView2;
+        private Image3DView image3DView3;
+        private Image3DView image3DView4;
+        private Image3DView image3DView5;
         //fragment
         private EditText edit_comment;
         private Button bt_comment;
@@ -340,6 +340,8 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
                 LearnManager.getEditor().putInt(LearnManager.currentGroupId,oldGroupId+1);
                 cet4s=LearnManager.getCe4Group();
                 LearnManager.getEditor().putInt(LearnManager.currentWordId, 0);
+                LearnManager.getEditor().putInt(LearnManager.totalLearnedCounts,LearnManager.getPreferences().getInt(LearnManager.currentGroupId,0)*LearnManager.getPreferences().getInt(LearnManager.countOfGroup,10)+oldOne);
+                LearnManager.getTotalLearnedCounts();//diao yong hou hui ji suan
                 LearnManager.getEditor().commit();
             }
             oldOne=LearnManager.getPreferences().getInt(LearnManager.currentWordId,0);

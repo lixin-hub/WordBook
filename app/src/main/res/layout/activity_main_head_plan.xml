@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 tools:ignore="RelativeOverlap" />
             <TextView
-                android:id="@+id/head_3"
+                android:id="@+id/activity_main_head_plan_extra_days"
                 android:layout_toEndOf="@id/head_1"
                 android:layout_below="@+id/head_2"
                 android:layout_marginTop="5dp"
@@ -59,13 +59,13 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
-                android:max="3139"
+                android:max="3739"
                 android:clickable="false"
                 android:progress="200"
                 android:id="@+id/activity_main_head_plan_progressbar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_toEndOf="@id/head_1"
-                android:layout_below="@id/head_3"
+                android:layout_below="@id/activity_main_head_plan_extra_days"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
@@ -91,7 +91,7 @@
                 android:layout_marginEnd="5dp"
                 android:textSize="15sp"
                 android:textColor="@color/colorText"
-                android:text="200/3139"
+                android:text="200/3739"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
