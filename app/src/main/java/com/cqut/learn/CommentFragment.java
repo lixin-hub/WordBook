@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cqut.learn.CustomView.MyCommentAdapter;
 import com.cqut.learn.LitePalDB.CET4;
-import com.cqut.learn.User.Comment;
+import com.cqut.learn.LitePalDB.Comment;
 import com.cqut.learn.User.User;
 
 import java.util.ArrayList;
@@ -30,8 +30,8 @@ public class CommentFragment extends Fragment {
      */
     private MyCommentAdapter adapter;
     private RecyclerView recyclerView;
-    CET4 word;
-    List<Comment> comments;
+    private CET4 word;
+    private List<Comment> comments;
 
     public CommentFragment(CET4 word) {
         this.word=word;
@@ -45,9 +45,7 @@ public class CommentFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View view=inflater.inflate(R.layout.fragment_learn_comment,container,false);
-         comments=new ArrayList<>();
-         adapter=new MyCommentAdapter(getContext(),comments);
-        init();
+         adapter=new MyCommentAdapter(getContext(),word.getComments());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         recyclerView=view.findViewById(R.id.fragment_comment_recycler);
        //设置布局管理器
@@ -55,26 +53,10 @@ public class CommentFragment extends Fragment {
        //设置为垂直布局，这也是默认的
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setAdapter(adapter);
+
         return view;
     }
-          private  void init(){
-         for (int i=0;i<10;i++){
-                Comment comment = new Comment();
-                comment.setLikes(i);
-                comment.setContent("这是一条评论" + i);
-                comment.setDate(new Date(System.currentTimeMillis()));
-                comment.setUser(new User("用户" + i, new Date(System.currentTimeMillis() - 100000000), BitmapFactory.decodeResource(getContext().getResources(), R.drawable.cet4)));
-            if (i%2==0) {
-                comment.setLike(false);
-            }else {
-                comment.setLike(true);
-            }
-            comments.add(comment);
-            adapter.notifyDataSetChanged();
-        }
-
-}
-    @Override
+     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 

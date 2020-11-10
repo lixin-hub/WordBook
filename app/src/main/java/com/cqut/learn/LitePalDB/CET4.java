@@ -35,7 +35,18 @@ public class CET4 extends LitePalSupport {
         private List<Translate> translates=new ArrayList<>();//翻译列表
         private List<Sentence> sentences=new ArrayList<>();//例句列表
         private List<Cognate> cognates=new ArrayList<>();//同根词列表
+        private List<Comment> comments=new ArrayList<>();//评论列表
 
+    public List<Comment> getComments() {
+        return  LitePal.where("theId=?",this.getWordId()+"").find(Comment.class);
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+        for (Comment comment:comments){
+            comment.save();
+        }
+    }
 
     public int getHeadWordLength() {
             return headWord.length();
@@ -46,6 +57,9 @@ public class CET4 extends LitePalSupport {
 
         public void setCognates(List<Cognate> cognates) {
             this.cognates = cognates;
+            for (Cognate cognate:cognates){
+                cognate.save();
+            }
         }
 
         public int getWordId() {
@@ -122,6 +136,9 @@ public class CET4 extends LitePalSupport {
 
         public void setPhrases(List<Phrase> phrases) {
             this.phrases = phrases;
+            for (Phrase phrase:phrases){
+                phrase.save();
+            }
         }
 
         public List<Syno> getSynos() {
@@ -130,6 +147,9 @@ public class CET4 extends LitePalSupport {
 
         public void setSynos(List<Syno> synos) {
             this.synos = synos;
+            for (Syno syno:synos){
+                syno.save();
+            }
         }
 
         public List<Translate> getTranslates() {
@@ -138,6 +158,9 @@ public class CET4 extends LitePalSupport {
 
         public void setTranslates(List<Translate> translates) {
             this.translates = translates;
+            for(Translate translate:translates){
+                translate.save();
+            }
         }
 
         public List<Sentence> getSentences() {
@@ -146,6 +169,9 @@ public class CET4 extends LitePalSupport {
 
         public void setSentences(List<Sentence> sentences) {
             this.sentences = sentences;
+            for (Sentence sentence:sentences){
+                sentence.save();
+            }
         }
 
 

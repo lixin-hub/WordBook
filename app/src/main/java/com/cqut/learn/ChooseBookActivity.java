@@ -45,26 +45,22 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
     private TextView text_progress;
     private ProgressBar bar;
     private TextView text_message;
-
-    private SharedPreferences.Editor editor;
+    private LearnManager manager;
     private boolean nextButtonEnableFlag_1,isNextButtonEnableFlag_2;
     @SuppressLint("CommitPrefEdits")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_book);
-        SharedPreferences preferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
-        editor= preferences.edit();
-        LearnManager.setPreferences(preferences);
-        LearnManager.setEditor(editor);
+        manager=new LearnManager(this);
 
-        if (preferences.getBoolean("isFirst",true)||preferences.getBoolean("planChange",false)){
-            editor.putBoolean("planChange",false);
+        if (manager.getPrefs().getBoolean("isFirst",true)||manager.isPlanChanged()){
+            manager.setPlanChanged(false);//计划改变复位
             initView();
-            editor.putBoolean("isFirst",false);
-            LearnManager.getEditor().putInt(LearnManager.currentGroupId,0);
-            LearnManager.getEditor().putInt(LearnManager.currentWordId,0);
-            LearnManager.getEditor().apply();
+            manager.editPrefs("isFirst",false);
+            manager.setTotalCounts(3739);
+            manager.editPrefs(LearnManager.currentGroupId,0);
+            manager.editPrefs(LearnManager.currentWordId,0);
         }else{
             Intent in=new Intent(this,MainActivity.class);
             startActivity(in);
@@ -107,7 +103,7 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 bt_cet4.setBackgroundColor(getColor(R.color.colorTextBackgroundSelected));
                 bt_gec.setBackgroundColor(getColor(R.color.colorTextBackground));
                 bt_ielts.setBackgroundColor(getColor(R.color.colorTextBackground));
-                editor.putInt("bookName",Constant.book_cet4);
+                manager.editPrefs("bookName",Constant.book_cet4);
                 nextButtonEnableFlag_1=true;
                 break;
             case R.id.activity_choose_book_button_gec:
@@ -115,14 +111,14 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 bt_gec.setBackgroundColor(getColor(R.color.colorTextBackgroundSelected));
                 bt_ielts.setBackgroundColor(getColor(R.color.colorTextBackground));
                 nextButtonEnableFlag_1=true;
-                editor.putInt("bookName",Constant.book_gec);
+                manager.editPrefs("bookName",LearnManager.book_gec);
                 break;
             case R.id.activity_choose_book_button_ielts:
                 bt_cet4.setBackgroundColor(getColor(R.color.colorTextBackground));
                 bt_gec.setBackgroundColor(getColor(R.color.colorTextBackground));
                 bt_ielts.setBackgroundColor(getColor(R.color.colorTextBackgroundSelected));
                 nextButtonEnableFlag_1=true;
-                editor.putInt("bookName",Constant.book_ielts);
+                manager.editPrefs("bookName",LearnManager.book_ielts);
                 break;
             case R.id.activity_choose_book_button_plan_10:
                 bt_plan10.setBackgroundColor(getColor(R.color.colorTextBackgroundSelected));
@@ -130,7 +126,7 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 bt_plan30.setBackgroundColor(getColor(R.color.colorTextBackground));
                 isNextButtonEnableFlag_2=true;
                 if (nextButtonEnableFlag_1){bt_next.setEnabled(true);textView_days.setText((373+" 天")); }
-                editor.putInt("dayPlan",Constant.day_plan_10);
+                manager.editPrefs(LearnManager.countOfGroup,LearnManager.day_plan_10);
                 break;
             case R.id.activity_choose_book_button_plan_20:
                 bt_plan10.setBackgroundColor(getColor(R.color.colorTextBackground));
@@ -138,7 +134,7 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 bt_plan30.setBackgroundColor(getColor(R.color.colorTextBackground));
                 isNextButtonEnableFlag_2=true;
                 if (nextButtonEnableFlag_1){bt_next.setEnabled(true);textView_days.setText((186)+" 天"); }
-                editor.putInt("dayPlan",Constant.day_plan_20);
+                manager.editPrefs("dayPlan",LearnManager.day_plan_20);
                 break;
             case R.id.activity_choose_book_button_plan_30:
                 bt_plan10.setBackgroundColor(getColor(R.color.colorTextBackground));
@@ -146,7 +142,7 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 bt_plan30.setBackgroundColor(getColor(R.color.colorTextBackgroundSelected));
                 isNextButtonEnableFlag_2=true;
                 if (nextButtonEnableFlag_1){bt_next.setEnabled(true);textView_days.setText((124+" 天")); }
-                editor.putInt("dayPlan",Constant.day_plan_30);
+                manager.editPrefs("dayPlan",LearnManager.day_plan_30);
                 break;
             case R.id.activity_choose_book_button_next:
                 View view= LayoutInflater.from(this).inflate(R.layout.alert_dialog_view,null);
@@ -161,8 +157,7 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 dialog.show();
                 text_Title.setText("正在解析单词数据这个过程可能需要几分钟");
                 MyJsonParser.setWordParseListener(this);
-                MyJsonParser.start(this,"CET4luan_2.json",LitePal.count("CET4"));
-                editor.commit();
+                MyJsonParser.start(this,"CET4_test.json",LitePal.count("CET4"));
                   break;
             default:break;
         }

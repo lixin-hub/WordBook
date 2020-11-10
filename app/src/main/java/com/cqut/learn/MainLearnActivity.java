@@ -36,6 +36,7 @@ import com.cqut.learn.Util.LearnManager;
 import com.cqut.learn.Util.MyJsonParser;
 
 import org.litepal.LitePal;
+import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,33 +80,32 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         private Button bt_comment;
         private CommentFragment commentFragment;
          private  List<CET4> cet4s;//currentWordGroup
+    private LearnManager manager;
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
+        //初始化
         initView();
+        manager=new LearnManager(this);
        int theId=getIntent().getIntExtra("theId",-1);
         if(theId!=-1){
             cet4s= LitePal.where("wordId=?",theId+"").find(CET4.class);
             updateView(cet4s.get(0));
-            commentFragment=new CommentFragment(cet4s.get(0));
        }else {
-
-            int currentWordIndex=LearnManager.getPreferences().getInt(LearnManager.currentWordId,-1);
+            int currentWordIndex=manager.getCurrentWordId();
             if (currentWordIndex!=-1){
-            cet4s= LearnManager.getCe4Group();
+            cet4s= manager.getCET4Group();
             updateView(cet4s.get(currentWordIndex));
-            commentFragment=new CommentFragment(cet4s.get(currentWordIndex));
             }
        }
-
-        //初始化
-        //定时器
-        Timer timer = new Timer();//初始化定时器
-        //定时任务，切换图片
-        MyTimerTask task = new MyTimerTask();
-        timer.schedule(task,2000,2000);//2000ms循环播放
-
-
+        //轮播图
+        {
+            //定时器
+            Timer timer = new Timer();//初始化定时器
+            //定时任务，切换图片
+            MyTimerTask task = new MyTimerTask();
+            timer.schedule(task, 2000, 2000);//2000ms循环播放
+        }
        //fragment
         bt_comment=findViewById(R.id.activity_learn_comment);
         edit_comment=findViewById(R.id.activity_learn_comment_editor);
@@ -113,7 +113,9 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         bt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int currentWordIndex=manager.getCurrentWordId();
+                commentFragment=new CommentFragment(cet4s.get(currentWordIndex));
+              addFragment(R.id.activity_main_fragment,commentFragment);
             }
         });
 
@@ -334,23 +336,23 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
     switch (v.getId()){
         case R.id.activity_learn_next:
-            int oldOne=LearnManager.getPreferences().getInt(LearnManager.currentWordId,0);
-            if(oldOne>=9) {
-                int oldGroupId=LearnManager.getPreferences().getInt(LearnManager.currentGroupId,0);
-                LearnManager.getEditor().putInt(LearnManager.currentGroupId,oldGroupId+1);
-                cet4s=LearnManager.getCe4Group();
-                LearnManager.getEditor().putInt(LearnManager.currentWordId, 0);
-                LearnManager.getEditor().putInt(LearnManager.totalLearnedCounts,LearnManager.getPreferences().getInt(LearnManager.currentGroupId,0)*LearnManager.getPreferences().getInt(LearnManager.countOfGroup,10)+oldOne);
-                LearnManager.getTotalLearnedCounts();//diao yong hou hui ji suan
-                LearnManager.getEditor().commit();
-            }
-            oldOne=LearnManager.getPreferences().getInt(LearnManager.currentWordId,0);
-            LearnManager.getEditor().putInt(LearnManager.currentWordId, oldOne+1);
-            LearnManager.getEditor().commit();
-            updateView(cet4s.get(LearnManager.getPreferences().getInt(LearnManager.currentWordId, oldOne)));
+                int oldOne=manager.getCurrentWordId();
+                if(oldOne==9) {
+                int oldGroupId=manager.getCurrentGroupId();
+                manager.setCurrentGroupId(oldGroupId+1);
+                cet4s.removeAll(cet4s);
+                cet4s.addAll(manager.getCET4Group());
+                manager.setCurrentWordId(0);
+                updateView(cet4s.get(manager.getCurrentWordId()));
+               }else{
+                     manager.setCurrentWordId(oldOne+1);
+                     updateView(cet4s.get(manager.getCurrentWordId()));
+                    commentFragment = null;
+                    commentFragment = new CommentFragment(cet4s.get(manager.getCurrentWordId()));
+                }
 
 
-            break;
+
     }
     }
     class HandleImage implements BitmapReadyListener{

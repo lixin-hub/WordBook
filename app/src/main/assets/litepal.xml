@@ -8,5 +8,7 @@
         <mapping class="com.cqut.learn.LitePalDB.Syno" />
         <mapping class="com.cqut.learn.LitePalDB.Translate" />
         <mapping class="com.cqut.learn.LitePalDB.Cognate" />
+        <mapping class="com.cqut.learn.LitePalDB.Comment" />
+
     </list>
 </litepal>

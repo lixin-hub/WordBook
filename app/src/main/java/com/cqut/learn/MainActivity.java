@@ -36,8 +36,6 @@ import me.sugarkawhi.bottomnavigationbar.BottomNavigationBar;
 import me.sugarkawhi.bottomnavigationbar.BottomNavigationEntity;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, MyJsonParser.WordParseListener, MyEditText.MyOnClickListener {
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
     private MyEditText main_editText_search;//搜索框
     private Button main_bt_search;
     private BottomNavigationBar bottomNavigationBar;
@@ -57,19 +55,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView text_message;
     //planChanged
     TextView plan_change;//计划有变
-    //recycler
-    private RecyclerView task_recycler;
     //dayGroup
     private List<CET4> cet4s=new ArrayList<>();
+    //学习管理器
+    LearnManager manager;
     @SuppressLint({"SetTextI18n", "CommitPrefEdits"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        preferences = LearnManager.getPreferences();
-        editor = LearnManager.getEditor();
-//今入时判断词库是否加载完毕
+        manager=new LearnManager(this);
+        manager.setCurrentWordId(0);
+        manager.setCurrentGroupId(1);
+        //今入时判断词库是否加载完毕
         if (LitePal.count("CET4") < 3700) {
             View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_view, null);
             text_message = view.findViewById(R.id.alert_dialog_view_message);
@@ -83,7 +82,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             dialog.show();
             text_Title.setText("正在解析单词数据这个过程可能需要几分钟");
             MyJsonParser.setWordParseListener(this);
-            MyJsonParser.start(this, "CET4luan_2.json", LitePal.count("CET4"));
+            MyJsonParser.start(this, "CET4_test.json", LitePal.count("CET4"));
         }
         //navigationBar
         {
@@ -119,9 +118,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         //task的recycler
         LinearLayoutManager layoutManager = new LinearLayoutManager(this );
-        cet4s.addAll(LearnManager.getCe4Group());
-        MyTaskAdapter taskAdapter=new MyTaskAdapter(this,cet4s);
-        task_recycler=findViewById(R.id.activity_main_mid_recycler);
+        cet4s.addAll(manager.getCET4Group());
+        MyTaskAdapter taskAdapter=new MyTaskAdapter(this,cet4s);//添加group到任务列表
+        //recycler
+        RecyclerView task_recycler = findViewById(R.id.activity_main_mid_recycler);
 //设置布局管理器
         task_recycler.setLayoutManager(layoutManager);
 //设置为垂直布局，这也是默认的
@@ -147,10 +147,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void onResume() {
         super.onResume();
-        plan_bar.setMax(LearnManager.totalCounts);
-        plan_bar.setProgress(LearnManager.getTotalLearnedCounts());
-        plan_rate.setText(LearnManager.getTotalLearnedCounts()+"/"+LearnManager.totalCounts);
-        plan_extra_days.setText("还有"+LearnManager.getExtraDays()+"天就完成了");
+        plan_bar.setMax(manager.getTotalCounts());
+        plan_bar.setProgress(manager.getTotalLearnedCounts());
+        plan_rate.setText(manager.getTotalLearnedCounts()+"/"+manager.getTotalCounts());
+        plan_extra_days.setText("还有"+manager.getExtraDays()+"天就完成了");
     }
 
     @Override
@@ -166,9 +166,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 startActivity(in);
                 break;
             case R.id.activity_main_head_plan_change_plan://计划改变，跳转到选择界面
-                editor.putBoolean("planChange",true);
-                editor.commit();
-            Intent choose=new Intent(this, ChooseBookActivity.class);
+                manager.editPrefs(LearnManager.planChanged,true);
+                Intent choose=new Intent(this, ChooseBookActivity.class);
             startActivity(choose);
             finish();
                 break;

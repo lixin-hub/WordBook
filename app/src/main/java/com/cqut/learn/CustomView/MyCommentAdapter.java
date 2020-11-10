@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cqut.learn.LitePalDB.Comment;
 import com.cqut.learn.R;
-import com.cqut.learn.User.Comment;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class MyCommentAdapter extends RecyclerView.Adapter<MyCommentAdapter.View
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
               final Comment comment=comments.get(position);
-              holder.image_user.setImageBitmap(comment.getUser().getHeadImage());
+             // holder.image_user.setImageBitmap(comment.getUser().getHeadImage());
               holder.text_time.setText(comment.getDate().toString());
               holder.image_likes.setOnClickListener(new View.OnClickListener() {
                   @Override
@@ -52,6 +52,7 @@ public class MyCommentAdapter extends RecyclerView.Adapter<MyCommentAdapter.View
               });
               holder.text_likes_counts.setText(comment.getLikes()+"");
               holder.text_content.setText(comment.getContent());
+
     }
 
     @Override

@@ -1,15 +1,20 @@
 package com.cqut.learn.Util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import androidx.annotation.NonNull;
 
 import com.cqut.learn.LitePalDB.CET4;
 import com.cqut.learn.LitePalDB.Cognate;
+import com.cqut.learn.LitePalDB.Comment;
 import com.cqut.learn.LitePalDB.Phrase;
 import com.cqut.learn.LitePalDB.Sentence;
 import com.cqut.learn.LitePalDB.Syno;
 import com.cqut.learn.LitePalDB.Translate;
+import com.cqut.learn.R;
+import com.cqut.learn.User.User;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -21,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.Call;
@@ -34,6 +40,7 @@ public class MyJsonParser {
      *@author:lixin
      *@Date:2020/10/25 19:50
      */
+    public static Context context;
     public interface WordParseListener {
         /*
          *@className:WordParseListener
@@ -114,6 +121,7 @@ public class MyJsonParser {
         *@Date:2020/10/25 20:26
         *@Param:[context, fileName]
         */
+        MyJsonParser.context=context;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -162,6 +170,7 @@ public class MyJsonParser {
         *@Param:[jsonStr]
         *@Return:void
         */
+        Bitmap bitmap=BitmapFactory.decodeResource(context.getResources(),R.drawable.activity_main_navigation_icon1);
             CET4 cet4=new CET4();
             JSONObject jsonObject = new JSONObject(jsonStr);
             int wordRank = jsonObject.getInt("wordRank");
@@ -199,7 +208,6 @@ public class MyJsonParser {
                    Translate translate=new Translate(pos,cn,tranOther,cet4);
                    translate.setTheId(wordRank);
                    translates.add(translate);
-                   translate.save();
                    }
                     //System.out.println(cn);
                      }
@@ -217,7 +225,6 @@ public class MyJsonParser {
                         //System.out.println("例句翻译："+sCn);
                         Sentence sentence1=new Sentence(sContent,sCn,cet4);
                         sentence1.setTheId(wordRank);
-                        sentence1.save();
                         sentences1.add(sentence1);
                     }
                     cet4.setSentences(sentences1);
@@ -237,7 +244,6 @@ public class MyJsonParser {
                             String mw = w.getString("w");
                             Syno syno1=new Syno(pos,tran,mw,cet4);
                             syno1.setTheId(wordRank);
-                            syno1.save();
                             synoList.add(syno1);
                             //System.out.println("同义词 " + (j + 1) + ":" + mw+"--"+tran);
                         }
@@ -259,7 +265,6 @@ public class MyJsonParser {
                             String en = object1.getString("hwd");
                             Cognate cognate=new Cognate(cn,en,pos,cet4);
                             cognate.setTheId(wordRank);
-                            cognate.save();
                             cognateList.add(cognate);
                         }
                         cet4.setCognates(cognateList);
@@ -276,12 +281,24 @@ public class MyJsonParser {
                         String en = object.getString("pContent");
                         Phrase phrase1 = new Phrase(en, cn, cet4);
                         phrase1.setTheId(wordRank);
-                        phrase1.save();
                         phraseArrayList.add(phrase1);
                     }
                     cet4.setPhrases(phraseArrayList);
 
                 }
+                //模拟评论
+                List<Comment> comments=new ArrayList<>();
+                for (int i=0;i<=10;i++){
+                    Comment comment=new Comment();
+                    comment.setContent("this is comment"+i);
+                    comment.setDate(new Date(System.currentTimeMillis()));
+                    comment.setLike(true);
+                    comment.setLikes(i);
+                    comment.setTheId(cet4.getWordId());
+                    comment.setUser(new User("user"+i,new Date(System.currentTimeMillis()),bitmap));
+                    comments.add(comment);
+                }
+                cet4.setComments(comments);
             }
             cet4.save();
         if (listener != null) {
