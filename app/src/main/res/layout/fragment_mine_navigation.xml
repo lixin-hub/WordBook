@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+
+    android:id="@+id/fragment_mine_navigation_favorite"
+    app:cardCornerRadius="10dp"
+    android:layout_marginEnd="50dp"
+    android:layout_marginStart="-10dp"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:src="@drawable/activity_learn_title_after_likes"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:layout_marginStart="5dp"
+            android:textColor="@color/colorText"
+            android:textSize="20sp"
+            android:text="@string/my_favorite"
+            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/fragment_mine_navigation_change_plan"
+        app:cardCornerRadius="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/activity_learn_title_after_likes"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:layout_marginStart="5dp"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"
+                android:text="@string/planHasChange"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/fragment_mine_navigation_change_theme"
+        app:cardCornerRadius="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/activity_learn_title_after_likes"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:layout_marginStart="5dp"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"
+                android:text="@string/change_heme"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/fragment_mine_navigation_account_problem"
+        app:cardCornerRadius="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/activity_learn_title_after_likes"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:layout_marginStart="5dp"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"
+                android:text="@string/account_problem"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/fragment_mine_navigation_about"
+        app:cardCornerRadius="10dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/activity_learn_title_after_likes"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:layout_marginStart="5dp"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"
+                android:text="@string/about_this_software"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+
+        android:id="@+id/fragment_mine_navigation_force_logout"
+        app:cardCornerRadius="10dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="-10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginStart="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:src="@drawable/activity_learn_title_after_likes"
+                android:layout_width="50dp"
+                android:layout_height="50dp"/>
+            <TextView
+                android:layout_marginStart="5dp"
+                android:textColor="@color/colorText"
+                android:textSize="20sp"
+                android:text="@string/logout"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

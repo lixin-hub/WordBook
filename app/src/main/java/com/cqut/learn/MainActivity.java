@@ -1,6 +1,11 @@
 package com.cqut.learn;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +19,8 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -35,12 +42,15 @@ import java.util.List;
 import me.sugarkawhi.bottomnavigationbar.BottomNavigationBar;
 import me.sugarkawhi.bottomnavigationbar.BottomNavigationEntity;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, MyJsonParser.WordParseListener, MyEditText.MyOnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, MyJsonParser.WordParseListener, MyEditText.MyOnClickListener,BottomNavigationBar.IBnbItemSelectListener{
     private MyEditText main_editText_search;//搜索框
     private Button main_bt_search;
     private BottomNavigationBar bottomNavigationBar;
     private Button main_bt_startLearn;
     private ScrollView scrollView;
+    private MineFragment mineFragment;
+    private LinearLayout layout_visibility;//main布局的可见性，替换其他视图时为不可见
+    private FrameLayout layout_take_place;//为fragment占位的布局
 
     private TextView text_Title;//Dialog
     private Dialog dialog;
@@ -66,8 +76,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         setContentView(R.layout.activity_main);
         initView();
         manager=new LearnManager(this);
-        manager.setCurrentWordId(0);
-        manager.setCurrentGroupId(1);
+       //manager.setCurrentWordId(0);
+        manager.setCurrentGroupId(0);
         //今入时判断词库是否加载完毕
         if (LitePal.count("CET4") < 3700) {
             View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_view, null);
@@ -102,19 +112,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     R.drawable.activity_main_navigation_icon1, 10));
             bottomNavigationBar.setEntities(mEntities);
             //点击item
-            bottomNavigationBar.setBnbItemSelectListener(new BottomNavigationBar.IBnbItemSelectListener() {
+            bottomNavigationBar.setBnbItemSelectListener(this);
 
-                @Override
-                public void onBnbItemSelect(int position) {
-                    Toast.makeText(MainActivity.this, position + "", Toast.LENGTH_SHORT).show();
-                }
-            });
-            //重复点击
-            bottomNavigationBar.setBnbItemDoubleClickListener(new BottomNavigationBar.IBnbItemDoubleClickListener() {
-                @Override
-                public void onBnbItemDoubleClick(int position) {
-                }
-            });
         }
         //task的recycler
         LinearLayoutManager layoutManager = new LinearLayoutManager(this );
@@ -130,6 +129,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         task_recycler.setAdapter(taskAdapter);
     }
     private void initView(){
+        mineFragment=new MineFragment();
+        layout_take_place=findViewById(R.id.activity_main_fragment);
+        layout_visibility=findViewById(R.id.activity_main_visibility);
         plan_bar=findViewById(R.id.activity_main_head_plan_progressbar);
         plan_rate=findViewById(R.id.activity_main_head_plan_rate);
         plan_extra_days=findViewById(R.id.activity_main_head_plan_extra_days);
@@ -201,5 +203,46 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
 
+    }
+
+
+    private void addFragment(@IdRes int convertView, @NonNull Fragment fragment){
+        FragmentManager manager=getSupportFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        transaction.add(convertView,fragment);
+        transaction.commit();
+    }
+    private void removeFragment(@NonNull Fragment fragment){
+        FragmentManager manager=getSupportFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        transaction.remove(fragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void onBnbItemSelect(int position) {
+
+                switch (position) {
+                    case 0://学习
+                        switch (Constant.previous_view){//上一个界面
+                            case 1:
+                                break;
+                            case 2:
+                                removeFragment(mineFragment);
+                            if (layout_visibility.getVisibility()==View.GONE){layout_visibility.setVisibility(View.VISIBLE);}
+                            if (layout_take_place.getVisibility()==View.VISIBLE){layout_take_place.setVisibility(View.GONE);}
+                        }
+                        Constant.previous_view=position;
+                        break;
+                    case 1:
+                        Constant.previous_view=position;
+                        break;
+                    case 2:
+                        if (layout_visibility.getVisibility()==View.VISIBLE){layout_visibility.setVisibility(View.GONE);}
+                        if (layout_take_place.getVisibility()==View.GONE){layout_take_place.setVisibility(View.VISIBLE);}
+                         addFragment(R.id.activity_main_fragment,mineFragment);
+                        Constant.previous_view=position;
+                        break;
+                }
     }
 }

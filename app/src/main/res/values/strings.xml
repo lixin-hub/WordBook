@@ -24,4 +24,10 @@
     <string name="us">美</string>
     <string name="parsing">正在解析</string>
     <string name="nextOne">下一个</string>
+    <string name="has_learned">已学</string>
+    <string name="my_favorite">我的收藏</string>
+    <string name="change_heme">改变主题</string>
+    <string name="about_this_software">关于本软件</string>
+    <string name="logout">退出登录</string>
+    <string name="account_problem">账号问题</string>
 </resources>

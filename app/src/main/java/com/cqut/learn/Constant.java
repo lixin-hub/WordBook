@@ -9,5 +9,5 @@ public class Constant {
      */
     public static boolean is3DViewTouched=false;
     public static int book_cet4=100;
-
+    public static int previous_view=0;
 }

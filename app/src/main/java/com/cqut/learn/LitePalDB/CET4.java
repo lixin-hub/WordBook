@@ -17,14 +17,12 @@ public class CET4 extends LitePalSupport {
      */
 
 
-        public void setUs_phone(String us_phone) {
-            this.us_phone = us_phone;
-        }
         private int wordId;//单词id
         private int headWordLength;
         private int wordRank;//单词序列
         private int likes;//点赞的次数
-        private int score;//单词的分数
+        private boolean isLike=false;
+       private int score;//单词的分数
         private int degree;//单词的等级（难度级别）
         private String bookId;//所属单词书
         private String headWord;//单词拼写；
@@ -36,6 +34,16 @@ public class CET4 extends LitePalSupport {
         private List<Sentence> sentences=new ArrayList<>();//例句列表
         private List<Cognate> cognates=new ArrayList<>();//同根词列表
         private List<Comment> comments=new ArrayList<>();//评论列表
+    public boolean isLike() {
+        return isLike;
+    }
+
+    public void setLike(boolean like) {
+        isLike = like;
+    }
+    public void setUs_phone(String us_phone) {
+        this.us_phone = us_phone;
+    }
 
     public List<Comment> getComments() {
         return  LitePal.where("theId=?",this.getWordId()+"").find(Comment.class);

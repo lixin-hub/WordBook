@@ -7,6 +7,13 @@
     android:fitsSystemWindows="true"
     android:background="@drawable/activity_main_search_top_root_background"
     tools:context=".MainActivity">
+    <LinearLayout
+        android:id="@+id/activity_main_visibility"
+        android:visibility="visible"
+        android:layout_above="@+id/main_3"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <include layout="@layout/activity_main_top_box"
         android:id="@+id/main_1"
         android:layout_alignParentTop="true"
@@ -33,7 +40,11 @@
         </LinearLayout>
 
     </ScrollView>
-
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/activity_main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <include layout="@layout/activity_main_navigation"
         android:id="@+id/main_3"
         android:layout_alignParentBottom="true"

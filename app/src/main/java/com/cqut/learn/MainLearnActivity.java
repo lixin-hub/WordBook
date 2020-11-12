@@ -50,7 +50,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
      *@author:lixin
      *@Date:2020/10/25 12:47
      */
-    //trans
+        //trans
         private MyScrollView scrollView;
         private Image3DSwitchView image3DSwitchView;//3d图片父布局
         private HandleImage bitmapReadyListener;//监听图片是否准备好了
@@ -60,6 +60,8 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         private TextView content_text_uk_phone;//英式英标
         private TextView content_text_us_phone;//美式英标
         private MyTextView content_trans_content;//翻译
+        private ImageView content_trans_speaker_uk;//英式发音
+        private ImageView content_trans_speaker_us;//美式发音
         //syno
         private MyTextView content_syno_text;//同义词翻译
         //cognate
@@ -69,7 +71,8 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         //sentence
         private MyTextView content_sentence_text;//例句
         private Button bt_next;//下一个
-        //image
+       //image
+        ImageView content_trans_like;
         private Image3DView image3DView1;
         private Image3DView image3DView2;
         private Image3DView image3DView3;
@@ -79,9 +82,10 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         private EditText edit_comment;
         private Button bt_comment;
         private CommentFragment commentFragment;
-         private  List<CET4> cet4s;//currentWordGroup
-    private LearnManager manager;
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        private  List<CET4> cet4s;//currentWordGroup
+        private LearnManager manager;
+
+        protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
         //初始化
@@ -135,6 +139,9 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
     private void initView(){
         bt_next=findViewById(R.id.activity_learn_next);//next word
         bt_next.setOnClickListener(this);
+        //标题栏返回按钮
+        ImageView title_back = findViewById(R.id.activity_learn_title_back);
+        title_back.setOnClickListener(this);
         initTranslateView();
         initCognateView();
         initPhrase();
@@ -160,6 +167,9 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         *@Return:void
         */
         title = findViewById(R.id.title);
+        //收藏按钮
+        content_trans_like = findViewById(R.id.activity_learn_content_trans_likes);
+        content_trans_like.setOnClickListener(this);
         title_text_word =findViewById(R.id.activity_learn_title_text);
         scrollView=findViewById(R.id.activity_learn_content_scroll);
         scrollView.setOnScrollChangeListener(null);//设置为空即可
@@ -188,6 +198,11 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         content_text_word.setText(cet4.getHeadWord());
         content_text_uk_phone.setText("["+cet4.getUk_phone()+"]");
         content_text_us_phone.setText("["+cet4.getUs_phone()+"]");
+        if (cet4.isLike()) {
+            content_trans_like.setImageResource(R.drawable.activity_learn_title_after_likes);
+        }else {
+            content_trans_like.setImageResource(R.drawable.activity_learn_title_before_likes);
+        }
         StringBuilder builder=new StringBuilder();
         for (Translate translate:cet4.getTranslates()){
             builder.append(translate.getPos()).append(translate.getP_Cn()).append("\n").append(translate.getP_Content());}
@@ -350,10 +365,24 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
                     commentFragment = null;
                     commentFragment = new CommentFragment(cet4s.get(manager.getCurrentWordId()));
                 }
-
-
-
-    }
+            cet4s= manager.getCET4Group();
+            updateView(cet4s.get(manager.getCurrentWordId()));
+           break;
+        case R.id.activity_learn_title_back:
+            finish();
+            break;
+        case R.id.activity_learn_content_trans_likes:
+      if (!cet4s.get(manager.getCurrentWordId()).isLike()){
+            cet4s.get(manager.getCurrentWordId()).setLike(true);
+            content_trans_like.setImageResource(R.drawable.activity_learn_title_after_likes);
+          cet4s.get(manager.getCurrentWordId()).save();
+      }else {
+          cet4s.get(manager.getCurrentWordId()).setLike(false);
+          content_trans_like.setImageResource(R.drawable.activity_learn_title_before_likes);
+          cet4s.get(manager.getCurrentWordId()).save();
+      }
+            break;
+         }
     }
     class HandleImage implements BitmapReadyListener{
         /*
