@@ -172,6 +172,7 @@ public class MyJsonParser {
         */
         Bitmap bitmap=BitmapFactory.decodeResource(context.getResources(),R.drawable.activity_main_navigation_icon1);
             CET4 cet4=new CET4();
+            cet4.setLike(false);
             JSONObject jsonObject = new JSONObject(jsonStr);
             int wordRank = jsonObject.getInt("wordRank");
             cet4.setWordRank(wordRank);

@@ -45,6 +45,7 @@ import java.util.List;
                     context.startActivity(intent);
                 }
             });
+            if (cet4.getTranslates().size()>0)
             holder.text_trans.setText(cet4.getTranslates().get(0).getP_Cn().split("；")[0]);
         }
 

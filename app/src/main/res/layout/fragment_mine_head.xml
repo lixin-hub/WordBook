@@ -60,7 +60,6 @@
             android:layout_below="@+id/fragment_mine_head_id"
             android:id="@+id/fragment_main_head_has_learned_count"
             android:gravity="center_vertical"
-            android:text="25"
             android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
             android:textColor="@color/colorPrimaryDark"

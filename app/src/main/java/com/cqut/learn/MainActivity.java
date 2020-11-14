@@ -33,6 +33,7 @@ import com.cqut.learn.MongoDB.MongoDBUtil;
 import com.cqut.learn.Util.LearnManager;
 import com.cqut.learn.Util.MyDialog;
 import com.cqut.learn.Util.MyJsonParser;
+import com.cqut.learn.Util.MyTimer;
 
 import org.litepal.LitePal;
 
@@ -42,7 +43,7 @@ import java.util.List;
 import me.sugarkawhi.bottomnavigationbar.BottomNavigationBar;
 import me.sugarkawhi.bottomnavigationbar.BottomNavigationEntity;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, MyJsonParser.WordParseListener, MyEditText.MyOnClickListener,BottomNavigationBar.IBnbItemSelectListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener, MyJsonParser.WordParseListener, MyEditText.MyOnClickListener,BottomNavigationBar.IBnbItemSelectListener, MyTimer.TimerListener {
     private MyEditText main_editText_search;//搜索框
     private Button main_bt_search;
     private BottomNavigationBar bottomNavigationBar;
@@ -67,6 +68,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     TextView plan_change;//计划有变
     //dayGroup
     private List<CET4> cet4s=new ArrayList<>();
+    //计时器
+    TextView task_timer;
+    MyTimer myTimer;
     //学习管理器
     LearnManager manager;
     @SuppressLint({"SetTextI18n", "CommitPrefEdits"})
@@ -79,7 +83,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
        //manager.setCurrentWordId(0);
         manager.setCurrentGroupId(0);
         //今入时判断词库是否加载完毕
-        if (LitePal.count("CET4") < 3700) {
+        if (LitePal.count("CET4") < 3700&&manager.getTotalLearnedCounts()<=0) {
             View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_view, null);
             text_message = view.findViewById(R.id.alert_dialog_view_message);
             bar = view.findViewById(R.id.alert_dialog_progress);
@@ -121,15 +125,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         MyTaskAdapter taskAdapter=new MyTaskAdapter(this,cet4s);//添加group到任务列表
         //recycler
         RecyclerView task_recycler = findViewById(R.id.activity_main_mid_recycler);
-//设置布局管理器
+        //设置布局管理器
         task_recycler.setLayoutManager(layoutManager);
-//设置为垂直布局，这也是默认的
+        //设置为垂直布局，这也是默认的
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         task_recycler.setAdapter(taskAdapter);
     }
     private void initView(){
         mineFragment=new MineFragment();
+        myTimer=new MyTimer();
+        myTimer.schedule(1000,1000,this);//设置计时 ms
+        task_timer=findViewById(R.id.activity_main_mid_task_time);
         layout_take_place=findViewById(R.id.activity_main_fragment);
         layout_visibility=findViewById(R.id.activity_main_visibility);
         plan_bar=findViewById(R.id.activity_main_head_plan_progressbar);
@@ -182,7 +189,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                MyDialog.showWordInfo(MainActivity.this,"完成","所有单词解析完成");
+
+                MyDialog.showWordInfo(MainActivity.this, "完成", "所有单词解析完成");
                 dialog.dismiss();
             }
         });
@@ -209,6 +217,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void addFragment(@IdRes int convertView, @NonNull Fragment fragment){
         FragmentManager manager=getSupportFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
+        if (fragment.isAdded()){return;}
         transaction.add(convertView,fragment);
         transaction.commit();
     }
@@ -244,5 +253,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                         Constant.previous_view=position;
                         break;
                 }
+    }
+
+    @Override
+    public void run(final int ms, final int times) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (ms*times<=60*1000)
+                    task_timer.setText(ms*times/1000+" s");
+                else
+                    task_timer.setText(ms*times/60/1000+" min");
+            }
+        });
+
     }
 }

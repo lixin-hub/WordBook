@@ -25,6 +25,29 @@
             android:text="@string/task"
             android:textColor="@color/colorText"
             android:textSize="30sp" />
+        <LinearLayout
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/time_icon"
+            android:textStyle="bold"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="@string/task"
+            android:textColor="@color/colorText"
+            android:textSize="30sp" />
+        <TextView
+            android:textStyle="bold"
+            android:id="@+id/activity_main_mid_task_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:text="10 min"
+            android:textColor="@color/colorText"
+            android:textSize="10sp" />
+        </LinearLayout>
 
        <androidx.recyclerview.widget.RecyclerView
            android:layout_below="@+id/mid_1"

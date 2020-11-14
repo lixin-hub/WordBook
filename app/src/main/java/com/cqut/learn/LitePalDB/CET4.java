@@ -16,30 +16,39 @@ public class CET4 extends LitePalSupport {
      *@Date:2020/10/25 17:40
      */
 
-
         private int wordId;//单词id
         private int headWordLength;
         private int wordRank;//单词序列
         private int likes;//点赞的次数
         private boolean isLike=false;
-       private int score;//单词的分数
+        private int score;//单词的分数
         private int degree;//单词的等级（难度级别）
         private String bookId;//所属单词书
         private String headWord;//单词拼写；
         private String us_phone;//美式音标
         private String uk_phone;//英式英标
+        private int time;//记忆该单词用的时间
         private List<Phrase> phrases=new ArrayList<>();//短语
         private List<Syno> synos=new ArrayList<>();//同近单词
         private List<Translate> translates=new ArrayList<>();//翻译列表
         private List<Sentence> sentences=new ArrayList<>();//例句列表
         private List<Cognate> cognates=new ArrayList<>();//同根词列表
         private List<Comment> comments=new ArrayList<>();//评论列表
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+        this.save();
+    }
     public boolean isLike() {
         return isLike;
     }
 
     public void setLike(boolean like) {
         isLike = like;
+        this.save();
     }
     public void setUs_phone(String us_phone) {
         this.us_phone = us_phone;

@@ -13,7 +13,7 @@ import android.graphics.RectF;
 public class BitmapToRound {
 
     //生成圆角图片
-    public static Bitmap GetRoundedCornerBitmap(Bitmap bitmap) {
+    public static Bitmap GetRoundedCornerBitmap(Bitmap bitmap,float roundPx) {
         try {
             Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                     bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -23,7 +23,6 @@ public class BitmapToRound {
                     bitmap.getHeight());
             final RectF rectF = new RectF(new Rect(0, 0, bitmap.getWidth(),
                     bitmap.getHeight()));
-            final float roundPx = 14;
             paint.setAntiAlias(true);
             canvas.drawARGB(0, 0, 0, 0);
             paint.setColor(Color.BLACK);

@@ -33,6 +33,10 @@
             android:launchMode="singleTop"
             >
         </activity>
+        <activity android:name=".MineInfoActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            />
         <activity android:name=".BaseActivity" />
         <activity android:name=".SearchDialogActivity"
             android:windowSoftInputMode="stateVisible|adjustResize"

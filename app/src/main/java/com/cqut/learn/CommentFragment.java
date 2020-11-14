@@ -29,8 +29,8 @@ public class CommentFragment extends Fragment  {
      *@author:lixin
      *@Date:2020/10/28 23:17
      */
-    private MyCommentAdapter adapter;
-    private RecyclerView recyclerView;
+    private MyCommentAdapter adapter;//评论适配器
+    private RecyclerView recyclerView;//评论列表
     private CET4 word;
     private List<Comment> comments;
 

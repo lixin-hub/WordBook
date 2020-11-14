@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<FrameLayout
+    android:id="@+id/dialog_mine_navigation_item"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"/>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/dialog_mine_navigation_toolbar"
+        android:background="@color/colorHeightLight"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/dialog_mine_navigation_title_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/activity_learn_title_back"
+            android:focusable="true"
+            />
+            <EditText
+                android:layout_marginStart="10dp"
+                android:hint="search"
+                android:paddingStart="10dp"
+                android:layout_marginEnd="60dp"
+                android:id="@+id/dialog_mine_navigation_title_search_box"
+                android:background="@drawable/activity_main_search_box_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+</LinearLayout>

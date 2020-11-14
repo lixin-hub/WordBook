@@ -2,6 +2,7 @@ package com.cqut.learn.Util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.ArraySet;
 import android.widget.Toast;
 
 import com.cqut.learn.LitePalDB.CET4;
@@ -9,7 +10,10 @@ import com.cqut.learn.LitePalDB.CET4;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class LearnManager {
     public static String planChanged="planChanged";
@@ -28,11 +32,18 @@ public class LearnManager {
     public static String currentGroupId="currentGroupId";//当前该学的单词组
     public static String totalLearnedCounts="totalLearnedCounts";//总共学习的单词数
     public static String countOfGroup="countOfGroup";//一组有多少个单词
+    public static String favoriteList="favoriteList";//收藏的单词
     public static int book_gec=200;
     public static int book_ielts=300;
     public static int day_plan_10=10;
     public static int day_plan_20=20;
     public static int day_plan_30=30;
+
+    public List<CET4> getMyFavoriteList(){
+
+      return  LitePal.where("isLike=?",1+"").find(CET4.class);
+    }
+
 
     public boolean setPlanChanged(boolean isChanged){
         /*

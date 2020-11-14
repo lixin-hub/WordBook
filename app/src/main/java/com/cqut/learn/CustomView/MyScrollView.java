@@ -64,7 +64,7 @@ public class MyScrollView extends ScrollView implements  ScrollView.OnScrollChan
         float height = title.getLayoutParams().height;
         float y = title.getY() * getResources().getDisplayMetrics().density;
         final float offsetHeight = y + height;
-        if (scrollY >= offsetHeight - titleText.getHeight() * getResources().getDisplayMetrics().density) {
+        if (scrollY >= (offsetHeight - titleText.getHeight() * getResources().getDisplayMetrics().density)){
             titleText.setX(scrollY/2);
             titleText.setText(text);
         }
