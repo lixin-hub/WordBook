@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cqut.learn.Constant;
 import com.cqut.learn.LitePalDB.CET4;
 import com.cqut.learn.LitePalDB.Translate;
 import com.cqut.learn.MainLearnActivity;
@@ -41,7 +42,8 @@ import java.util.List;
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(context, MainLearnActivity.class);
-                    intent.putExtra("theId",cet4.getWordId());
+                    intent.putExtra(Constant.WORD_ID,cet4.getWordId());
+                    intent.putExtra(Constant.WHICH_PAGE,Constant.FROM_OTHER);
                     context.startActivity(intent);
                 }
             });

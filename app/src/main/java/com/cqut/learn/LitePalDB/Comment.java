@@ -27,6 +27,7 @@ public class Comment extends LitePalSupport
     }
     public void setLike(boolean like) {
         isLike = like;
+        this.save();
     }
 
     public User getUser() {
@@ -43,6 +44,7 @@ public class Comment extends LitePalSupport
 
     public void setLikes(int likes) {
         this.likes = likes;
+        this.save();
     }
 
     public String getContent() {
@@ -51,6 +53,7 @@ public class Comment extends LitePalSupport
 
     public void setContent(String content) {
         this.content = content;
+        this.save();
     }
 
     public Date getDate() {
@@ -58,7 +61,7 @@ public class Comment extends LitePalSupport
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.date = date;this.save();
     }
 
     public int getTheId() {
@@ -66,7 +69,7 @@ public class Comment extends LitePalSupport
     }
 
     public void setTheId(int theId) {
-        this.theId = theId;
+        this.theId = theId;this.save();
     }
 
 }

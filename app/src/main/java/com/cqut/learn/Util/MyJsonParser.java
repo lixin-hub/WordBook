@@ -112,7 +112,7 @@ public class MyJsonParser {
         }
         return paths;
     }
-
+    static  Bitmap bitmap;
     public static void start(final Context context, final String fileName, final int index){
         /**
         *@methodName:startAndReturnCET4
@@ -121,6 +121,7 @@ public class MyJsonParser {
         *@Date:2020/10/25 20:26
         *@Param:[context, fileName]
         */
+        bitmap=BitmapFactory.decodeResource(context.getResources(),R.drawable.activity_main_navigation_icon1);
         MyJsonParser.context=context;
         new Thread(new Runnable() {
             @Override
@@ -170,9 +171,9 @@ public class MyJsonParser {
         *@Param:[jsonStr]
         *@Return:void
         */
-        Bitmap bitmap=BitmapFactory.decodeResource(context.getResources(),R.drawable.activity_main_navigation_icon1);
+
             CET4 cet4=new CET4();
-            cet4.setLike(false);
+
             JSONObject jsonObject = new JSONObject(jsonStr);
             int wordRank = jsonObject.getInt("wordRank");
             cet4.setWordRank(wordRank);
@@ -195,8 +196,11 @@ public class MyJsonParser {
             }else {
                 return;//数据不完整直接返回
             }
+            cet4.setLike(false);
+            cet4.setTime(0);
+            cet4.setScore(0);
+            cet4.setLearned(false);
             JSONArray trans = content.getJSONArray("trans");
-
             //翻译
             if (!trans.isEmpty() || trans.length() >= 1) {
                 List<Translate> translates=new ArrayList<>();
@@ -289,16 +293,15 @@ public class MyJsonParser {
                 }
                 //模拟评论
                 List<Comment> comments=new ArrayList<>();
-                for (int i=0;i<=10;i++){
+
                     Comment comment=new Comment();
-                    comment.setContent("this is comment"+i);
+                    comment.setContent(" ");
                     comment.setDate(new Date(System.currentTimeMillis()));
                     comment.setLike(true);
-                    comment.setLikes(i);
+                    comment.setLikes(1000);
                     comment.setTheId(cet4.getWordId());
-                    comment.setUser(new User("user"+i,new Date(System.currentTimeMillis()),bitmap));
                     comments.add(comment);
-                }
+
                 cet4.setComments(comments);
             }
             cet4.save();

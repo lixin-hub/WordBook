@@ -5,7 +5,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,12 +24,15 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.transform.Result;
+
 public class SearchDialogActivity extends BaseActivity implements TextWatcher {
     private EditText main_editText_search;//搜索框
     private SearchListAdapter adapter;
     private RecyclerView recyclerView;
     private Button bt_cancel;//取消搜索
-
+    private CheckBox checkBox;//是否启用模糊搜索
+    private TextView resultSize;//搜索结果条数
     private List<CET4> cet4List=new ArrayList<>();
     private List<CET4> cet4s=new ArrayList<>();
     @Override
@@ -44,6 +50,8 @@ public class SearchDialogActivity extends BaseActivity implements TextWatcher {
         main_editText_search.addTextChangedListener(this);
         main_editText_search.requestFocus();
         recyclerView=findViewById(R.id.activity_search_recycler);
+        checkBox=findViewById(R.id.activity_search_check_box);
+        resultSize=findViewById(R.id.activity_search_size);
         adapter=new SearchListAdapter(this,cet4List);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this );
         //设置布局管理器
@@ -60,13 +68,23 @@ public class SearchDialogActivity extends BaseActivity implements TextWatcher {
     public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
     @Override
     public void onTextChanged(final CharSequence s, int start, int before, int count) {
-
+        resultSize.setText("正在搜索...");
+        if (!checkBox.isChecked()){
+           List<CET4> cet4s= LitePal.where("headWord=?",s.toString()).find(CET4.class);
+            cet4List.clear() ;
+            cet4List.addAll(cet4s);
+            resultSize.setText(cet4List.size()+" 条结果");
+            return;
+        }
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
                 if (s.length()>0&&s.toString().matches("^[a-zA-Z]*")) {
                     //如果是英文
                     if (cet4List.size()>0){
-                        cet4s.removeAll(cet4s);
+                        cet4s.clear();
                         cet4s.addAll(cet4List);
-                        cet4List.removeAll(cet4List);
+                        cet4List.clear();
                         for (CET4 cet4 : cet4s) {
                             if (cet4.getHeadWord().contains(s))
                                 cet4List.add(cet4);
@@ -79,21 +97,32 @@ public class SearchDialogActivity extends BaseActivity implements TextWatcher {
                                 }
                                }
                             }
-
-                        adapter.notifyDataSetChanged();
+                       runOnUiThread(new Runnable() {
+                           @Override
+                           public void run() {
+                               resultSize.setText(cet4List.size()+" 条结果");
+                               adapter.notifyDataSetChanged();
+                           }
+                       });
                     }else {
                         cet4s = LitePal.order("headWordLength asc").where("headWordLength >= ?", "2").find(CET4.class);
                         for (CET4 cet4 : cet4s) {
                                 if (cet4.getHeadWord().contains(s))
                                     cet4List.add(cet4);
                         }
-                        adapter.notifyDataSetChanged();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                                resultSize.setText(cet4List.size()+" 条结果");
+                            }
+                        });
                     }
 
 
                 }else if(s.length()>0&&!s.toString().matches("^[a-zA-Z]*")) {
                     //如果是中文
-                    cet4List.removeAll(cet4List);
+                    cet4List.clear();
                     List<Translate> translates = LitePal.findAll(Translate.class);
                     for (Translate translate : translates) {
                         if (translate.getP_Cn().contains(s)) {
@@ -108,8 +137,16 @@ public class SearchDialogActivity extends BaseActivity implements TextWatcher {
                             }
                         }
                     }
-                    adapter.notifyDataSetChanged();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                            resultSize.setText(cet4List.size()+" 条结果");
+                        }
+                    });
                 }
+                }
+            }).start();
             }
 
     @Override

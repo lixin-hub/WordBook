@@ -35,6 +35,7 @@ public class MyCommentAdapter extends RecyclerView.Adapter<MyCommentAdapter.View
               final Comment comment=comments.get(position);
              // holder.image_user.setImageBitmap(comment.getUser().getHeadImage());
               holder.text_time.setText(comment.getDate().toString());
+              holder.text_username.setText("单词记");
               holder.image_likes.setOnClickListener(new View.OnClickListener() {
                   @Override
                   public void onClick(View v) {
@@ -62,7 +63,7 @@ public class MyCommentAdapter extends RecyclerView.Adapter<MyCommentAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView text_content,text_time,text_age,text_likes_counts;
+        public TextView text_content,text_time,text_likes_counts,text_username;
         public ImageView image_user,image_likes;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +72,7 @@ public class MyCommentAdapter extends RecyclerView.Adapter<MyCommentAdapter.View
             image_likes=itemView.findViewById(R.id.fragment_comment_item_likes);
             image_user=itemView.findViewById(R.id.fragment_comment_item_user_image);
             text_likes_counts=itemView.findViewById(R.id.fragment_comment_item_likes_counts);
+            text_username=itemView.findViewById(R.id.fragment_comment_item_username);
         }
     }
 }

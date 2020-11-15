@@ -33,9 +33,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
-
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_below="@id/main_1"
+        android:id="@+id/main2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+   <CheckBox
+       android:layout_marginStart="10dp"
+       android:text="模糊搜索"
+       android:checked="false"
+       android:id="@+id/activity_search_check_box"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+        <TextView
+            android:textSize="20sp"
+            android:textColor="@color/colorHeightLight"
+            android:layout_marginStart="30dp"
+            android:id="@+id/activity_search_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_below="@+id/main_1"
+        android:layout_below="@+id/main2"
         android:id="@+id/activity_search_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

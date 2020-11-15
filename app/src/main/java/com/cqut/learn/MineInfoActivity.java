@@ -43,7 +43,6 @@ public class MineInfoActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_mine_navigation);
-
         init();
         coverView();
     }
@@ -78,6 +77,7 @@ public class MineInfoActivity extends BaseActivity implements View.OnClickListen
 
         switch (getIntent().getIntExtra(Constant.MINE_NAVIGATION_WHICH_ITEM,0)){
             case Constant.MINE_NAVIGATION_ITEM_FAVORITE:
+                setTitle("收藏");
                 displayList=new ArrayList<>();
                 displayList.addAll(manager.getMyFavoriteList());
                 Collections.reverse(displayList);//倒序
@@ -121,9 +121,9 @@ public class MineInfoActivity extends BaseActivity implements View.OnClickListen
          int p=info.getPosition();
         switch (item.getItemId()){
             case 1:
-                displayList.remove(p);
                 CET4 cet4=displayList.get(p);
                 cet4.setLike(false);
+                displayList.remove(p);
                 adapter.notifyDataSetChanged();
                 break;
             case 2:

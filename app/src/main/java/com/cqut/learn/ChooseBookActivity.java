@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cqut.learn.Util.DataBaseTransToLocal;
 import com.cqut.learn.Util.LearnManager;
 import com.cqut.learn.Util.MyDialog;
 import com.cqut.learn.Util.MyJsonParser;
@@ -53,12 +54,13 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_book);
         manager=new LearnManager(this);
-
         if (manager.getPrefs().getBoolean("isFirst",true)||manager.isPlanChanged()){
+            new DataBaseTransToLocal().openDatabase(this);
+            manager.saveLastTime();
             manager.setPlanChanged(false);//计划改变复位
             initView();
             manager.editPrefs("isFirst",false);
-            manager.setTotalCounts(3739);
+            manager.setTotalCounts(3645);
             manager.editPrefs(LearnManager.currentGroupId,0);
             manager.editPrefs(LearnManager.currentWordId,0);
         }else{
@@ -145,19 +147,22 @@ public class ChooseBookActivity extends BaseActivity implements View.OnClickList
                 manager.editPrefs("dayPlan",LearnManager.day_plan_30);
                 break;
             case R.id.activity_choose_book_button_next:
-                View view= LayoutInflater.from(this).inflate(R.layout.alert_dialog_view,null);
-                text_message=view.findViewById(R.id.alert_dialog_view_message);
-                bar=view.findViewById(R.id.alert_dialog_progress);
-                text_Title=view.findViewById(R.id.alert_dialog_title);
-                text_progress=view.findViewById(R.id.alert_dialog_text_progress);
-                AlertDialog.Builder builder=new AlertDialog.Builder(this);
-                builder.setView(view);
-                builder.setCancelable(false);
-                Dialog dialog=builder.create();
-                dialog.show();
-                text_Title.setText("正在解析单词数据这个过程可能需要几分钟");
-                MyJsonParser.setWordParseListener(this);
-                MyJsonParser.start(this,"CET4_test.json",LitePal.count("CET4"));
+//                View view= LayoutInflater.from(this).inflate(R.layout.alert_dialog_view,null);
+//                text_message=view.findViewById(R.id.alert_dialog_view_message);
+//                bar=view.findViewById(R.id.alert_dialog_progress);
+//                text_Title=view.findViewById(R.id.alert_dialog_title);
+//                text_progress=view.findViewById(R.id.alert_dialog_text_progress);
+//                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+//                builder.setView(view);
+//                builder.setCancelable(false);
+//                Dialog dialog=builder.create();
+//                dialog.show();
+//                text_Title.setText("正在解析单词数据这个过程可能需要几分钟");
+//                MyJsonParser.setWordParseListener(this);
+//                MyJsonParser.start(this,"CET4luan_2.json",LitePal.count("CET4"));
+                Intent in=new Intent(this,MainActivity.class);
+                startActivity(in);
+                finish();
                   break;
             default:break;
         }

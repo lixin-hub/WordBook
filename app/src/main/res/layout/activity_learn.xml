@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     >
     <LinearLayout
-android:layout_alignParentTop="true"
+     android:layout_alignParentTop="true"
         android:layout_above="@+id/comment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -17,11 +17,7 @@ android:layout_alignParentTop="true"
     android:background="@drawable/activity_main_search_top_root_background">
 
            <include layout="@layout/activity_learn_title" />
-        <FrameLayout
-            android:id="@+id/activity_main_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </FrameLayout>
+
           <com.cqut.learn.CustomView.MyScrollView
               android:id="@+id/activity_learn_content_scroll"
               android:layout_width="match_parent"
@@ -111,4 +107,10 @@ android:layout_alignParentTop="true"
         </LinearLayout>
 
     </LinearLayout>
+    <FrameLayout
+        android:layout_above="@+id/comment"
+        android:id="@+id/activity_main_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </FrameLayout>
 </RelativeLayout>

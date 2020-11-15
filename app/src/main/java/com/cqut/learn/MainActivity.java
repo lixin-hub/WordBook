@@ -65,14 +65,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView plan_extra_days;
     private TextView text_message;
     //planChanged
-    TextView plan_change;//计划有变
+    private TextView plan_change;//计划有变
     //dayGroup
-    private List<CET4> cet4s=new ArrayList<>();
+    private final List<CET4> cet4s=new ArrayList<>();//复习列表
+    private MyTaskAdapter taskAdapter;
     //计时器
-    TextView task_timer;
-    MyTimer myTimer;
+    private TextView task_timer;
+    private MyTimer myTimer;
     //学习管理器
-    LearnManager manager;
+    private LearnManager manager;
+    //task面板
+    private TextView needStudyWord;//今天需要新学的单词数量
+    private  TextView needReviewWord;//需要复习的单词数量
     @SuppressLint({"SetTextI18n", "CommitPrefEdits"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,21 +87,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
        //manager.setCurrentWordId(0);
         manager.setCurrentGroupId(0);
         //今入时判断词库是否加载完毕
-        if (LitePal.count("CET4") < 3700&&manager.getTotalLearnedCounts()<=0) {
-            View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_view, null);
-            text_message = view.findViewById(R.id.alert_dialog_view_message);
-            bar = view.findViewById(R.id.alert_dialog_progress);
-            text_Title = view.findViewById(R.id.alert_dialog_title);
-            text_progress = view.findViewById(R.id.alert_dialog_text_progress);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setView(view);
-            builder.setCancelable(false);
-            dialog = builder.create();
-            dialog.show();
-            text_Title.setText("正在解析单词数据这个过程可能需要几分钟");
-            MyJsonParser.setWordParseListener(this);
-            MyJsonParser.start(this, "CET4_test.json", LitePal.count("CET4"));
-        }
+//        if (LitePal.count("CET4") < 3700&&manager.getTotalLearnedCounts()<=0) {
+//            View view = LayoutInflater.from(this).inflate(R.layout.alert_dialog_view, null);
+//            text_message = view.findViewById(R.id.alert_dialog_view_message);
+//            bar = view.findViewById(R.id.alert_dialog_progress);
+//            text_Title = view.findViewById(R.id.alert_dialog_title);
+//            text_progress = view.findViewById(R.id.alert_dialog_text_progress);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setView(view);
+//            builder.setCancelable(false);
+//            dialog = builder.create();
+//            dialog.show();
+//            text_Title.setText("正在解析单词数据这个过程可能需要几分钟");
+//            MyJsonParser.setWordParseListener(this);
+//            MyJsonParser.start(this, "CET4_test.json", LitePal.count("CET4"));
+//        }
         //navigationBar
         {
             List<BottomNavigationEntity> mEntities = new ArrayList<>();
@@ -121,8 +125,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         //task的recycler
         LinearLayoutManager layoutManager = new LinearLayoutManager(this );
-        cet4s.addAll(manager.getCET4Group());
-        MyTaskAdapter taskAdapter=new MyTaskAdapter(this,cet4s);//添加group到任务列表
+        cet4s.addAll(manager.getNeedReviewWordList());
+         taskAdapter=new MyTaskAdapter(this,cet4s);//添加group到任务列表
         //recycler
         RecyclerView task_recycler = findViewById(R.id.activity_main_mid_recycler);
         //设置布局管理器
@@ -151,8 +155,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         main_editText_search.setMyOnClickListener(this);
         plan_change=findViewById(R.id.activity_main_head_plan_change_plan);
         plan_change.setOnClickListener(this);
+        needReviewWord=findViewById(R.id.activity_mid_task_review_count);
+        needStudyWord=findViewById(R.id.activity_main_mid_task__not_learn_count);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onResume() {
         super.onResume();
@@ -160,13 +167,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         plan_bar.setProgress(manager.getTotalLearnedCounts());
         plan_rate.setText(manager.getTotalLearnedCounts()+"/"+manager.getTotalCounts());
         plan_extra_days.setText("还有"+manager.getExtraDays()+"天就完成了");
+        cet4s.clear();
+        cet4s.addAll(manager.getNeedReviewWordList());
+        taskAdapter.notifyDataSetChanged();//刷新列表
+        int needStudyCount=manager.getNeedLearnWordOfDay();
+         needStudyWord.setText(needStudyCount+" ");
+         needReviewWord.setText(manager.getNeedReviewWordList().size()+" ");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        manager.saveLastTime();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.activity_main_mid_bt_start_learn://开始学习按钮
+                Toast.makeText(this,manager.isNewDay()+" ",Toast.LENGTH_SHORT).show();
          Intent intent=new Intent(this,MainLearnActivity.class);
+         intent.putExtra(Constant.WHICH_PAGE,Constant.FROM_MAIN);
          startActivity(intent);
                break;
             case R.id.activity_main_search_word://搜索框
@@ -177,8 +198,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.activity_main_head_plan_change_plan://计划改变，跳转到选择界面
                 manager.editPrefs(LearnManager.planChanged,true);
                 Intent choose=new Intent(this, ChooseBookActivity.class);
-            startActivity(choose);
-            finish();
+                startActivity(choose);
+                finish();
                 break;
         }
     }
@@ -224,8 +245,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void removeFragment(@NonNull Fragment fragment){
         FragmentManager manager=getSupportFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
+        if (fragment.isAdded()){
         transaction.remove(fragment);
-        transaction.commit();
+        transaction.commit();}
     }
 
     @Override
@@ -260,6 +282,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+
                 if (ms*times<=60*1000)
                     task_timer.setText(ms*times/1000+" s");
                 else

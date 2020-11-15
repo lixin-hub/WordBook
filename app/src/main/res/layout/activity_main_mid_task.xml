@@ -44,7 +44,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="30dp"
-            android:text="10 min"
             android:textColor="@color/colorText"
             android:textSize="10sp" />
         </LinearLayout>
@@ -83,24 +82,22 @@
             android:textColor="@color/colorText"
             android:textSize="25sp" />
         <TextView
-            android:id="@+id/mid_4"
+            android:id="@+id/activity_main_mid_task__not_learn_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mid_2"
             android:layout_marginStart="60dp"
             android:layout_marginTop="10dp"
-            android:text="10个"
             android:textColor="@color/colorText"
             android:textSize="20sp" />
         <TextView
-            android:id="@+id/mid_5"
+            android:id="@+id/activity_mid_task_review_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/mid_2"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="60dp"
             android:layout_marginTop="10dp"
-            android:text="20个"
             android:textColor="@color/colorText"
             android:textSize="20sp" />
         <Button
@@ -108,7 +105,7 @@
             android:layout_margin="20dp"
             android:background="@drawable/activity_main_mid_bt_learn_background"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/mid_5"
+            android:layout_below="@+id/activity_mid_task_review_count"
             android:id="@+id/activity_main_mid_bt_start_learn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

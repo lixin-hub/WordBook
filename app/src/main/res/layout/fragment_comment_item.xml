@@ -22,7 +22,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@id/fragment_comment_item_user_image"
-            android:text="凹凸曼"
             android:textColor="@color/colorText"
             android:textSize="20sp" />
 
@@ -46,19 +45,21 @@
         <TextView
             android:layout_below="@+id/fragment_comment_item_username"
             android:layout_marginTop="10dp"
-            android:textSize="15dp"
             android:layout_marginStart="5dp"
-            android:text="就要高考了，加油！"
             android:textColor="@color/colorText"
             android:id="@+id/fragment_comment_item_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
             android:layout_marginStart="5dp"
-            android:text="2020 10 31 20:08"
             android:layout_marginTop="5dp"
             android:id="@+id/fragment_comment_item_time"
-android:layout_below="@id/fragment_comment_item_content"            android:layout_width="wrap_content"
+            android:layout_below="@id/fragment_comment_item_content"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="2dp"/>
 </LinearLayout>

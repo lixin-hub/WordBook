@@ -2,9 +2,8 @@ package com.cqut.learn;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.media.MediaParser;
+import android.graphics.Color;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -36,11 +35,11 @@ import com.cqut.learn.LitePalDB.Syno;
 import com.cqut.learn.LitePalDB.Translate;
 import com.cqut.learn.Util.BitmapToRound;
 import com.cqut.learn.Util.LearnManager;
+import com.cqut.learn.Util.MyDialog;
 import com.cqut.learn.Util.MyJsonParser;
 import com.cqut.learn.Util.MyTimer;
 
 import org.litepal.LitePal;
-import org.litepal.crud.LitePalSupport;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,6 +54,8 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
      *@author:lixin
      *@Date:2020/10/25 12:47
      */
+         private int pageFrom;//用于区分是该学的单词还是搜索或喜欢界面传入的单词
+         private int displayWordId;//其他页面的wordid
         //trans
         private MyScrollView scrollView;
         private Image3DSwitchView image3DSwitchView;//3d图片父布局
@@ -95,6 +96,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         //定时器
         private MyTimer myTimer;//记录停留在当前页面的时间
         private TextView text_time;//显示时间
+        private int t;//记录从开始按下下一个按钮的时间
         protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_learn);
@@ -103,9 +105,11 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         media=new MediaPlayer();
         manager=new LearnManager(this);
         myTimer=new MyTimer();
-       int theId=getIntent().getIntExtra("theId",-1);
-        if(theId!=-1){
-            cet4s= LitePal.where("wordId=?",theId+"").find(CET4.class);
+        displayWordId =getIntent().getIntExtra(Constant.WORD_ID,-1);
+        pageFrom=getIntent().getIntExtra(Constant.WHICH_PAGE,0x33);
+        if(pageFrom==Constant.FROM_OTHER&&displayWordId!=-1){
+            myTimer.schedule(1000,1000,this);
+            cet4s= LitePal.where("wordId=?", displayWordId +"").find(CET4.class);
             updateView(cet4s.get(0));
             if (bt_next.getVisibility()==View.VISIBLE)
             bt_next.setVisibility(View.GONE);//显示搜索界面的单词不能选择下一个
@@ -135,24 +139,31 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         bt_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int currentWordIndex=manager.getCurrentWordId();
+                int currentWordIndex;
+                if (pageFrom==Constant.FROM_MAIN){
+                currentWordIndex=manager.getCurrentWordId();
+                }else {currentWordIndex=0;}
+
                 commentFragment=new CommentFragment(cet4s.get(currentWordIndex));
               addFragment(R.id.activity_main_fragment,commentFragment);
             }
         });
 
     }
-    private void addFragment(@IdRes int convertView, @NonNull Fragment fragment){
+    public void addFragment(@IdRes int convertView, @NonNull Fragment fragment){
         FragmentManager manager=getSupportFragmentManager();
         FragmentTransaction transaction=manager.beginTransaction();
+        if (fragment.isAdded()){return;}
         transaction.add(convertView,fragment);
         transaction.commit();
     }
-    private void removeFragment(@NonNull Fragment fragment){
-        FragmentManager manager=getSupportFragmentManager();
-        FragmentTransaction transaction=manager.beginTransaction();
-        transaction.remove(fragment);
-        transaction.commit();
+    public void removeFragment(@NonNull Fragment fragment){
+            if (fragment!=null&&fragment.isAdded()) {
+                FragmentManager manager = getSupportFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                transaction.remove(fragment);
+                transaction.commit();
+            }
     }
     private void initView(){
         bt_next=findViewById(R.id.activity_learn_next);//下一个单词
@@ -169,6 +180,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
         initImage();
     }
     private void updateView(CET4 cet4){
+            cet4.getComments().get(0).setContent(cet4.getTranslates().get(0).getP_Content()+"\ngood good study day day up!");
         updateTranslateView(cet4);
         updateCognate(cet4);
         updatePhrase(cet4);
@@ -371,6 +383,9 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
     switch ( v.getId()){
         case R.id.activity_learn_next://下一个单词按钮点击后
+            t=0;
+            removeFragment(commentFragment);
+            scrollView.scrollTo(0,0);
               doWhenNextButtonClicked();
             cet4s= manager.getCET4Group();
             updateView(cet4s.get(manager.getCurrentWordId()));
@@ -379,17 +394,26 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
             finish();
             break;
         case R.id.activity_learn_content_trans_likes:
-      if (!cet4s.get(manager.getCurrentWordId()).isLike()){
-            cet4s.get(manager.getCurrentWordId()).setLike(true);
-             cet4s.get(manager.getCurrentWordId()).save();
-          updateView(cet4s.get(manager.getCurrentWordId()));
-
-      }else {
-          cet4s.get(manager.getCurrentWordId()).setLike(false);
-          cet4s.get(manager.getCurrentWordId()).save();
-          updateView(cet4s.get(manager.getCurrentWordId()));
-      }
-            break;
+            if (pageFrom==Constant.FROM_MAIN){
+                   if (cet4s.get(manager.getCurrentWordId()).isLike()){
+                   cet4s= manager.getCET4Group();
+                   cet4s.get(manager.getCurrentWordId()).setLike(false);
+                   updateView(cet4s.get(manager.getCurrentWordId()));
+          }else {
+                   cet4s= manager.getCET4Group();
+                   cet4s.get(manager.getCurrentWordId()).setLike(true);
+                   updateView(cet4s.get(manager.getCurrentWordId()));
+                }
+                                            }
+         else{
+             if (cet4s.get(0).isLike()){
+                 cet4s.get(0).setLike(false);
+                 updateView(cet4s.get(0));  }
+               else {
+                   cet4s.get(0).setLike(true);
+                 updateView(cet4s.get(0));}
+             }
+         break;
         case R.id.activity_learn_content_uk_phone:
         case R.id.activity_learn_content_trans_speaker_uk:
             String url="https://dict.youdao.com/dictvoice?audio="+cet4s.get(manager.getCurrentWordId()).getHeadWord()+"&type=1";
@@ -403,6 +427,7 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
          }
     }
 
+    @SuppressLint("SetTextI18n")
     private void doWhenNextButtonClicked() {
             /*
             *@methodName:doWhenNextButtonClicked
@@ -412,15 +437,24 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
             *@Param:[]
             *@Return:void
             */
-
         int oldOne=manager.getCurrentWordId();
         if(oldOne==9) {
-            int oldGroupId=manager.getCurrentGroupId();
-            manager.setCurrentGroupId(oldGroupId+1);
-            cet4s.removeAll(cet4s);
-            cet4s.addAll(manager.getCET4Group());
-            manager.setCurrentWordId(0);
-            updateView(cet4s.get(manager.getCurrentWordId()));
+
+            if (manager.isNewDay()) {
+                manager.setTaskIsOver(false);
+                bt_next.setClickable(true);
+                int oldGroupId = manager.getCurrentGroupId();
+                manager.setCurrentGroupId(oldGroupId + 1);
+                cet4s.clear();
+                cet4s.addAll(manager.getCET4Group());
+                manager.setCurrentWordId(0);
+                updateView(cet4s.get(manager.getCurrentWordId()));
+            }else {
+                bt_next.setClickable(false);
+                bt_next.setText("over!");
+                manager.setTaskIsOver(true);
+                MyDialog.showDayTaskOverInfo(this,"开心","今日任务已完成，快去复习吧！");
+            }
         }else{
             manager.setCurrentWordId(oldOne+1);
             updateView(cet4s.get(manager.getCurrentWordId()));
@@ -431,18 +465,49 @@ public class MainLearnActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void run(final int ms, final int times) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    //每一秒执行一次该方法
-                    int s=ms*times/1000;
-                   CET4 cet4=cet4s.get(manager.getCurrentWordId());
-                    cet4.setTime(s);//把时间保存
-                    if (s<60){text_time.setText(s+"''");}
-                    else { int min=s/60;s=s%60;text_time.setText(min+"'"+s+"''");}
-                }
-            });
 
+            if (pageFrom==Constant.FROM_MAIN) {
+                CET4 cet4 = cet4s.get(manager.getCurrentWordId());
+                int oldTime = cet4.getTime();
+                cet4.setTime(oldTime + 1);//当前单词在该页面停留的时间
+                runOnUiThread(new Runnable() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void run() {
+                        //每一秒执行一次该方法
+                        int s = ms * times / 1000;
+                        CET4 cet4 = cet4s.get(manager.getCurrentWordId());
+                        cet4.setTime(s);//把时间保存
+                        if (s < 60) {
+                            text_time.setText(s + "''");
+                        } else {
+                            int min = s / 60;
+                            s = s % 60;
+                            text_time.setText(min + "'" + s + "''");
+                        }
+                        t++;
+                        if (t < 10) {
+                            bt_next.setClickable(false);
+                            bt_next.setTextColor(Color.GRAY);
+                            bt_next.setText(getResources().getString(R.string.nextOne) + "(" + (10 - t) + ")");
+                        } else {
+                            cet4s.get(manager.getCurrentWordId()).setLearned(true);//10秒完成算学习
+                            cet4s.get(manager.getCurrentWordId()).setScore(20 + cet4s.get(manager.getCurrentWordId()).getTime() * 1 / 5);
+                            bt_next.setClickable(true);
+                            bt_next.setText(R.string.nextOne);
+                            bt_next.setTextColor(getColor(R.color.colorText));
+                        }
+                    }
+                });
+            }else {
+                //来自其他页面的单词
+                CET4 cet4=manager.getWordById(displayWordId);
+                int oldTime = cet4.getTime();
+                cet4.setTime(oldTime + 1);//当前单词在该页面停留的时间
+                if (cet4.getTime()>=10){
+                    cet4.setLearned(true);
+                }
+            }
     }
 
     class HandleImage implements BitmapReadyListener{
